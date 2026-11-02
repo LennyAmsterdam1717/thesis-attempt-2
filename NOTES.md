@@ -160,3 +160,14 @@ Decision D-2: Credit-default contagion into equities via *public* data (EDGAR 8-
 
 ## Phase 2: crowding map (2026-11-02)
 Written at the top of `lit_review_2026.md`. Verdicts: A crowded (unless the task changes); B moderately open in finance (label scarcity is the bottleneck); C open for stock lead-lag / signed / firm-relation LP, with a ready 2026 evaluation-critique toolkit; D rigour × stock graphs and public default contagion open.
+
+## Phase 3: kill tests (2026-11-02)
+1. `signed lead-lag network stock opposite direction edge sign prediction temporal graph` (extended): **MSGNN/FiLL (2022, background) = static signed lead-lag LP**. Idea 1 weakened, survives via the temporal + residualised + evaluation angle.
+2. `supply chain customer momentum lead-lag link prediction graph neural network stocks 2026` (extended): no 2026 LP paper; GDES supply-link forecasting (arXiv 2508.12044, Aug 2025, background); QuantIntellect non-academic study. Idea 2 survives.
+3. `13F institutional holdings entry exit prediction graph neural network temporal bipartite 2026` (extended): only A2 (weights) and Frontiers AI 2026 (aggregate indicators). Idea 5 survives (weakened).
+4. `temporal link prediction anomaly score unexpected edges stock market network earnings announcement graph 2026` (extended): nothing on edge-level market-graph anomalies; earnings-day prediction paper 2605.25894 (no graph). Idea 4 survives.
+5. `EdgeBank baseline financial temporal graph stock lead-lag re-evaluation …` (extended): only generic TGB/DGB material. Idea 3 survives.
+6. `8-K bankruptcy filing contagion customers suppliers stock returns machine learning graph EDGAR 2026` (extended): returns EDGAR filings only (8-K Item 1.03 filings confirmed public, e.g. 2026-05-04 and 2026-10-21 filings), no ML paper. Idea 7 survives.
+7. `institutional herding crowding detection anomaly 13F ownership network graph machine learning 2026` (standard): GeomHerd 2605.11645 appendix; crowding finance literature (2022–2023, background). Idea 6 weakened.
+8. `explainable temporal graph neural network counterfactual explanation financial link prediction lead-lag 2026` (standard): TemGX (ICLR 2026), MemExplainer (ICML 2026), QIEA-TGX (AAAI 2026); none on finance. Idea 10 folded into ideas 2 and 7.
+Killed: plain heterogeneous distress/fraud classification (crowded), new TGNN for return prediction (gate), crypto P&D (scope).

@@ -384,3 +384,15 @@ Entries below were seen only on abstract or record pages (**[ABS]**) unless mark
 - [UNVERIFIED] "Default prediction and contagion risk assessment in corporate guarantee networks via dynamic heterogeneous graph neural networks", Springer 2026, doi:10.1007/s44443-026-00904-2 (guarantee contracts, likely Chinese data).
 - [UNVERIFIED] Yan, Tang, Gao, Jiang & Lu (2026), DatedGPT, arXiv:2603.11838 (point-in-time LLMs; relevant to LLM-built graphs).
 - [UNVERIFIED] "Temporal Leakage in LLM Backtesting", arXiv:2608.02985 (2026).
+
+---
+
+## Kill-test finds (Phase 3; recorded so the kill tests are reproducible)
+- [BACKGROUND] He, Reinert, Wang & Cucuringu (2022), "MSGNN: A Spectral Graph Neural Network Based on a Novel Magnetic Signed Laplacian", arXiv:2209.00546 (LoG 2022). Builds **FiLL** signed directed *yearly static* lead-lag graphs from 444 US stocks (2000–2020) for link and sign prediction. Key prior work for any signed lead-lag topic; seen via search extract, not opened.
+- [ABS] Mitani & Sasaki (2026), "Explaining Temporal Graph Neural Network via Quantum-Inspired Evolutionary Algorithm" (QIEA-TGX), AAAI 2026 (OJS PDF seen via search extract; site blocks fetch).
+- [ABS] "Towards the Explainability of Temporal Graph Networks via Memory Backtracking and Topological Attribution" (MemExplainer), ICML 2026 spotlight, <https://icml.cc/virtual/2026/poster/61239>, code github.com/yazhengliu/MemExplainer.
+- [ABS, secondary summary page] "Training-Free Counterfactual Explanation for Temporal Graph Model Inference" (TemGX), ICLR 2026, OpenReview id NqtYz3A8tQ, code github.com/nicej1899/TemGX. Baselines include CoDy (counterfactual TGNN link-prediction explainer).
+- [ABS via search extract] GeomHerd (2026), arXiv:2605.11645: herding quantification via Ricci-flow curvature; appendix builds a 13F fund-overlap graph that qualitatively recovers stress quarters.
+- [ABS via search extract] "Large language model-driven time-series forecasting of financial network indicators", *Frontiers in AI* 2026, doi:10.3389/frai.2026.1722121 (Chinese fund–stock bipartite graphs 2016–2024).
+- [ABS] Noseda et al. (2026), "Predicting Stock Price Direction on Earnings Announcement Days using Multi-modal Deep Learning", arXiv:2605.25894 (no graph; shows earnings-day labels are a standard public event source).
+- Non-academic: QuantIntellect, "ai-supply-chain-lead-lag" GitHub study (Oct 2026): finds same-day supplier co-movement on earnings but **no post-report drift along supply links** (customer momentum Sharpe 0.24, t = 0.8). Not peer-reviewed; used only as a sanity prior.
