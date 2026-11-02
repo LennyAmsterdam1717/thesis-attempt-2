@@ -397,3 +397,47 @@ Frank 4 → **55 / 70**. Gates: pass.
 
 **13. Questions for the supervisor.** Which relation sources would she trust most (her knowledge-network work)? Is a possible null
 result ("economic links add little beyond prices") acceptable? Could C-2 be the second half of a thesis that starts with C-1's WP1?
+
+---
+
+## Part 3: Runner-up cards (direction D, shorter)
+
+### D-1: "Lead-lag or volatility?" A leakage and baseline audit of temporal stock-graph benchmarks
+- **Pitch/RQ:** How much of the reported performance of temporal GNNs on financial graphs (anchor C0; also A1, A6-style setups) is
+  explained by memorisation, node volatility, or evaluation choices (negative sampling, candidate-set size, future-informed graph construction)?
+- **Builds on:** C4, C5 (2026 TLP evaluation critiques), B4 (SimpleCount), D1 "When Alpha Disappears" (leakage switches incl. future-informed
+  graphs), D3 Look-Ahead-Bench (the anchor's GPT-4o descriptions are not point-in-time).
+- **vs anchor:** a direct *re-test* of the anchor on its own public data.
+- **Data/feasibility:** anchor dataset + public prices; very feasible (8–10 weeks of work). **Too small alone** for a 30-week thesis →
+  recommended as **work package 1 of C-1** (already built in there).
+- **Kill test:** no financial re-evaluation found (Phase 3 query 5). **Survives.**
+- **Scores:** novelty 4 (12) · fit 4 (8) · data 5 (10) · feasibility 5 (10) · eval 5 · AI 4 · artefact 2 · industry 2 · Frank 3 → **56 / 70**.
+
+### D-2: Tariff and sanction windows as out-of-distribution stress tests for learned company graphs
+- **Pitch/RQ:** Do learned lead-lag/relation graphs (C-1, C-2) break, rewire or keep working during political shocks (the April-2025 US
+  tariff announcements, sanction rounds), and can the graph change be localised to exposed sectors and supply links?
+- **Builds on:** D6 (RMT complexity gap; tariff shock synchronised G5 markets), D7 (sector responses to the tariff windows), C2 (geopolitical realignment of firm ties).
+- **vs anchor:** the anchor checked COVID only (Appendix H). This adds a political-shock regime.
+- **Fit:** strong for Frank's interest in politics; **thin as a standalone thesis** → best as an evaluation chapter of C-1 or B-1.
+- **Scores:** novelty 3 (9) · fit 3 (6) · data 5 (10) · feasibility 4 (8) · eval 3 · AI 3 · artefact 4 · industry 4 · Frank 5 → **52 / 70**.
+
+### D-3: Point-in-time LLM-built company graphs
+- **Pitch/RQ:** When an LLM extracts company relations from filings (A3, C2), how much of the downstream gain comes from look-ahead knowledge
+  inside the LLM? Compare graphs extracted by point-in-time vs current LLMs, and with vs without the text.
+- **Builds on:** D1–D3, DatedGPT [UNVERIFIED], C2, A3.
+- **Risk:** heavy LLM extraction and compute; point-in-time models may not be available in the needed sizes. **Weakened.**
+- **Scores:** novelty 4 (12) · fit 4 (8) · data 3 (6) · feasibility 2 (4) · eval 3 · AI 5 · artefact 2 · industry 4 · Frank 4 → **48 / 70**.
+
+### Score overview (all cards)
+
+| Card | Direction | Score / 70 | Main risk |
+|---|---|---|---|
+| **C-1** Signed temporal lead-lag LP (with WP1 re-evaluation) | C | **58** | Signal may be mostly volatility (still a finding) |
+| **B-1** Surprise edges (edge-level anomalies) | B | **58** | Weak proxy labels |
+| D-1 Lead-lag or volatility? (audit) | D | 56 | Too small alone → folded into C-1 |
+| A-1 13F position-change events | A | 55 | Identifier mapping; few quarters |
+| A-2 Credit-event contagion + counterfactual XAI | A | 55 | Few events; supply-link extraction |
+| C-2 Economic links explain lead-lag | C | 55 | Supply-chain coverage; possible null result |
+| D-2 Tariff/sanction stress tests | D | 52 | Thin alone → evaluation chapter |
+| B-2 13F crowding anomalies | B | 50 | Overlaps known crowding measures |
+| D-3 Point-in-time LLM company graphs | D | 48 | Compute and extraction effort |
