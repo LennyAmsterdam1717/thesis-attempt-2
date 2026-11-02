@@ -337,3 +337,63 @@ Frank 4 → **58 / 70**. Gates: pass.
 **13. Questions for the supervisor.** Is a thesis whose first result may be "the 2026 SOTA is mostly memorisation/volatility" welcome,
 or must the thesis also propose a model? Which edge definition (thresholded vs statistical) does she find most meaningful? Is a
 European universe (AEX) a plus?
+
+---
+
+### Card C-2: Do economic links explain price lead-lag? Heterogeneous temporal link prediction
+
+**1. Pitch.** Lead-lag edges are learned from prices alone. Add the firms' *economic* relations as typed edges (supplier–customer,
+common institutional owners, same sector, similar 10-K business text) and ask whether, and which, relations help predict and
+explain who follows whom.
+
+**2. Research question.** Do observable economic relations between listed firms improve temporal prediction of price lead-lag
+edges, and which relation types does the model rely on?
+- SQ1: Relation-type ablation: prices only vs + sector vs + common ownership vs + supply chain vs + text similarity.
+- SQ2: Do lead-lag edges along economic links last longer or flip sign less often (edge-lifetime analysis)?
+- SQ3: Do 2026 TGNN explainers (MemExplainer, TemGX) attribute predictions to the economically plausible relation types, and are these attributions stable?
+
+**3. Supervisor directions hit.** **Heterogeneous graph** (not node classification) · **link prediction** · temporal · knowledge/text
+networks (her text-analysis and knowledge-network expertise) · signed edges optional.
+
+**4. Closest 2026 work and the difference.**
+- **Anchor** (C0) [FT]: uses LLM text only as *node* features; most models do best with description embeddings. → We test text and
+  economic relations as *typed edges*; *extends* the anchor from a homogeneous to a heterogeneous temporal graph.
+- C2 Köse et al. 2026 [ABS]: LLM-reconstructed temporal supply/partner/ownership networks (semiconductors). → We use such links as predictors of market behaviour.
+- C3 Yılkı 2026 [ABS]: supply-chain propagation of 10-K text signals for returns (51-edge KG). → Link prediction instead of factor construction; larger relation set.
+- A3 Zhang 2026 [ABS]: LLM dynamic KG, simulation-only. → Real-data test.
+- A2 Izadifar & Rahmati 2026 [FT]: 13F graph, providing the common-ownership relation.
+- Sanity prior: a non-academic Oct-2026 study found **no drift along supply links** (QuantIntellect repo), so a null result is plausible and must be designed for.
+
+**5. Kill test.** Queries: `supply chain customer momentum lead-lag link prediction graph neural network stocks 2026`; `arXiv 2026 supply
+chain link prediction companies knowledge graph GNN SEC filings`; `arXiv 2026 LLM-constructed company knowledge graph stock relations
+heterogeneous GNN`. No paper predicts lead-lag edges from typed economic relations. **Survives.**
+
+**6. Data and access risk.** Sector: SIC codes (EDGAR, public). Text similarity: 10-K Item 1 business descriptions (EDGAR) embedded
+with a sentence-transformer. Common ownership: 13F (as A-1). Supply chain: 10-K customer disclosures extracted with an LLM
+(**effort + coverage risk**), or C2's network if released **[UNVERIFIED]**, or Wikidata relations **[UNVERIFIED coverage]**.
+Prices as in C-1. **Risk: medium–high** (supply-chain coverage). The thesis still works with sector + ownership + text if supply links are thin.
+
+**7. Method sketch.** Heterogeneous temporal graph: dynamic lead-lag edges (from C-1's pipeline) + slowly changing typed relation
+edges (annual/quarterly). Models: TGN/GraphMixer with relation-type edge features (DyGLib); snapshot HGT/RGCN + GRU (PyG); a
+pair-feature logistic/LightGBM model (relation indicators + EdgeBank + correlation), which is likely hard to beat. Explainers:
+MemExplainer (<https://github.com/yazhengliu/MemExplainer>), TemGX.
+
+**8. Baselines and evaluation.** All of C-1's baselines and protocol, plus the price-only model as the main comparison. Ablations with
+paired significance tests across seeds. Explanation evaluation: fidelity, sparsity, rank agreement between explainers, and share of
+attribution per relation type.
+
+**9. Artefact.** Analyst "why does B follow A?" view: for a predicted lead-lag link, show the relation path (e.g. "A is B's largest
+customer; 6 shared top-10 holders") and the explanation scores.
+
+**10. Feasibility, risks, fallback.** Weeks 1–6 review; 7–10 C-1 edge pipeline (shared); 11–15 relation data (sector, text, 13F first;
+supply chain last); 16–21 models + ablations; 22–25 XAI; 26–30 writing. **Fallback:** drop supply chain and keep sector + text +
+ownership; the heterogeneous LP question still stands.
+
+**11. Ethics.** Company-level relations only. Exclude board-interlock or insider (Form 4) relations, which involve named natural persons
+(GDPR). LLM extraction: disclose model use and keep extracted triples auditable.
+
+**12. Scores (§9).** Novelty 4 (12) · fit 5 (10) · data 3 (6) · feasibility 3 (6) · evaluation 4 · AI 4 · artefact 5 · industry 4 ·
+Frank 4 → **55 / 70**. Gates: pass.
+
+**13. Questions for the supervisor.** Which relation sources would she trust most (her knowledge-network work)? Is a possible null
+result ("economic links add little beyond prices") acceptable? Could C-2 be the second half of a thesis that starts with C-1's WP1?
