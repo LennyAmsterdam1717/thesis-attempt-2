@@ -110,3 +110,92 @@ Reference point throughout: **Krstev, Rigoni, Mishkovski & Pasa (2026)**, *Machi
 - [UNVERIFIED] ResearchGate listings (2026): CrossHGAT, FFD-DHG, SCALE, "Multi-Perspective Fusion Graph Model for Financial
   Distress Prediction of Listed Companies", "Temporal Attentive Graph Networks for Financial Surveillance" (TAGN).
   These indicate a very crowded Chinese-market distress/fraud classification literature.
+
+---
+
+## Direction B: anomaly detection in dynamic market and company graphs
+
+### B1. Caputi & Meadows (2026). Financial Anomaly Detection for the Canadian Market. arXiv:2604.02549
+- Link: <https://arxiv.org/abs/2604.02549> · First posted 2026-04 (page dated March 2026; id = April 2026) · preprint · **[FT]**
+- Summary: Graph-level anomaly detection on daily correlation graphs (Convergent Cross Mapping, 25-day window, negatives
+  zeroed) of 39 TSX-60 stocks, 2005–2021. Compares TDA (persistent homology on directed flag complexes), PCA and
+  unsupervised GNNs (One-Shot GIN(E), GlocalKD). Ground truth = seven Canadian Financial Stress Index peaks; an event
+  counts as detected if an anomalous graph (score > 97.5th percentile) appears within 50 days before it. GlocalKD is best
+  (F1 0.68; DJIA appendix 0.85); raw/PCA 0.28–0.45.
+- Graph: temporal snapshot sequence, homogeneous, weighted (negative edges dropped). Task: **graph-level anomaly / early warning**.
+- Data: **Yahoo Finance via yfinance (public)**. Code: <https://github.com/njmead811/Financial-Anomaly-Detection-for-the-Canadian-Market> (PyG, pyflagser).
+- Leaves open: only 7 events (very small evaluation sample); fixed thresholds; **negative correlations discarded**; no
+  edge- or node-level localisation (which stocks or links are anomalous?).
+- vs anchor: both use daily equity graphs from public prices, but B1 scores **whole snapshots** where the anchor predicts
+  **individual edges**. Using a lead-lag link predictor's surprise (low predicted probability for edges that do appear)
+  as an edge-level anomaly score would join the two.
+
+### B2. Kriuk & Kriuk (2026). ORCA: Online Regime Correlation Analyzer. arXiv:2604.17251
+- Link: <https://arxiv.org/abs/2604.17251> · First posted 2026-04 (from id; no date on the HTML) · preprint · **[FT]**
+- Summary: 127 spectral and graph features of rolling correlation networks over 24 ETFs (absorption ratio,
+  eigenvalue entropy, Marchenko–Pastur excess, density and clustering at thresholds) + 79 price features → Random
+  Forest classifies 10-day rally/crash events. Walk-forward (8 folds, 10-day gap). Crash AUC 0.71 vs 0.61 without
+  network features, but HAR-RV gets crash AUC 0.76. SHAP shows topology features dominate crash predictions.
+- Graph: rolling correlation snapshots (threshold graphs). **No GNN.** Task: event classification / early warning.
+- Data: EODHD API (commercial, but ETF prices are also on Stooq/yfinance). Code: none (live demo only).
+- Leaves open: inconsistent ablation numbers; a simple volatility model beats it on crashes; portfolio backtest tuned in-sample.
+- vs anchor: a **non-deep, interpretable** counterpoint. Network-structure summaries carry crash signal, which
+  suggests aggregate lead-lag graph statistics (from the anchor's edge stream) as features.
+
+### B3. Hua, Qi, Wei, Tian, Xu, Wu, Li & Guo (2026). BAG: Benchmarking Anomaly Detection on Dynamic Graphs. *AAAI 2026* 40(17):14892–14900
+- Link: <https://doi.org/10.1609/aaai.v40i17.38510> · Published 2026-03-14 (conference 2026-01) · peer-reviewed · **[ABS]**
+  (abstract + first page seen only via the search-engine extract; the AAAI page itself blocked web fetch, so not opened directly)
+- Summary: First comprehensive dynamic-graph anomaly benchmark: 25 models (classical, DTDG and CTDG DGNNs), 10
+  datasets with synthetic and organic anomalies, node- and edge-level. Main finding: continuous-time (CTDG) models do
+  best on edge anomalies. Code: <https://github.com/frhuaaa/BAG>.
+- vs anchor: BAG wraps the same CTDG model family as the anchor (TGN, TGAT, JODIE, GraphMixer-type) for anomaly scoring,
+  so a **lead-lag edge stream could be dropped into BAG** with little engineering. No financial-market dataset is evident.
+
+### B4. Ahmed & Shafi (2026). Beat the Counter First: A Baseline for Temporal-Graph Anomaly Detectors. arXiv:2608.15965
+- Link: <https://arxiv.org/abs/2608.15965> · First posted 2026-08-16 · preprint · **[ABS]**
+- Summary: SimpleCount, a parameter-free one-feature (count/recency/novelty) baseline, matches or beats the SLADE
+  detector on 3 of 6 datasets and beats IsoForest on all, at 23–133× less compute; on synthetic data with planted
+  structure all detectors are near random.
+- vs anchor: same lesson as for link prediction (EdgeBank). **Any lead-lag anomaly or link-prediction claim must beat
+  count/recency baselines**, which the anchor never tests.
+
+### B5. Schlinge, Schnipper & Atzmueller (2026). Statistical Feature Augmentation for Anomaly Detection in Dynamic Graphs. arXiv:2609.02965
+- Link: <https://arxiv.org/abs/2609.02965> · First posted 2026-09-02 · preprint · **[ABS]**
+- Summary: Adds classical network-statistic features to temporal GNNs; consistently improves anomaly detection on
+  Reddit/Wikipedia/MOOC across 7 continuous- and discrete-time models.
+- vs anchor: the anchor found extra node features mostly *hurt*; this paper finds structural statistics *help* for
+  anomalies. Contrasting the two on market graphs would be a cheap experiment.
+
+### B6. Losavio, Persia, Sathe & Pasadakis (2026). Fraud Detection in Cryptocurrency Markets with Spatio-Temporal Graph Neural Networks. arXiv:2604.24590
+- Link: <https://arxiv.org/abs/2604.24590> · First posted 2026-04-27 · preprint · **[ABS]**
+- Summary: Three graph constructions from aggregated hourly market data, then an ST-GNN (spatial attention + temporal
+  Transformer) to detect pump-and-dump events over 3+ years; graph models beat standard ML baselines.
+- **Crypto-only. Transfer label: the method (graphs built from aggregated price/volume only) transfers to equities;
+  labelled manipulation data for equities does not exist publicly** (except SEC litigation releases, unverified).
+- vs anchor: same "market-data-only graph construction" philosophy; supervised event labels instead of lead-lag edges.
+
+### B7. Uddin (2026). Explainable Graph Neural Networks for Interbank Contagion Surveillance: A Regulatory-Aligned Framework for the U.S. Banking Sector. arXiv:2604.14232
+- Link: <https://arxiv.org/abs/2604.14232> · First posted 2026-04-14 · preprint · **[ABS]**
+- Summary: ST-GAT (GAT + BiLSTM) over 8,103 FDIC banks, 58 quarters (2010Q1–2024Q2); bilateral exposures reconstructed
+  from **public FDIC Call Reports** by maximum entropy; distress early warning. AUPRC 0.939, just below XGBoost
+  (0.944); attention + permutation importance (ROA, NPL ratio dominate).
+- vs anchor: different entities (banks, balance-sheet exposures). Relevant to the credit/contagion side, and it
+  shows again that **gradient boosting matches the GNN**.
+
+### B8. Han, Wei, Yang, Huang, Fang, Ma & Yu (2026). DynGraphAgentBench: A Benchmark for Agentic Lifecycle Control in Dynamic Graph Anomaly Detection. arXiv:2609.33980
+- Link: <https://arxiv.org/abs/2609.33980> · First posted 2026-09-27 · preprint · **[ABS]**
+- Summary: 7 temporal graph datasets with node/edge anomaly tasks, 11 detectors (built on BAG), 8 chronological deployment
+  windows with **delayed labels**; a controller picks/retrains detectors using only time-causal information.
+- vs anchor: offers a deployment-realistic protocol (chronological windows, delayed feedback) that market surveillance
+  needs and the anchor's single split lacks.
+
+### Direction B: out of scope by date (noted, not used as evidence)
+- Neela, "Systemic Risk Radar" arXiv:2512.17185 (**Dec 2025**).
+- "Explainable Heterogeneous Anomaly Detection in Financial Networks via Adaptive Expert Routing" arXiv:2510.17088 (**v1 Oct 2025**, v2 Mar 2026).
+
+### Direction B: unverified leads
+- [UNVERIFIED] Ares-Robledo, Rifà-Pous & Clarisó (2026), "Graph neural networks for anomaly detection: a systematic review of dynamic temporal approaches", *Artif. Intell. Rev.* 59:129, doi:10.1007/s10462-026-11532-7 (open access; Springer page failed to fetch). **Worth reading in phase 1.**
+- [UNVERIFIED] "Dynamic relational network embedding-based anomaly detection for predicting financial risks" (stock bubble detection, transformer dynamic network embedding + autoencoder), Springer, doi:10.1007/s10791-026-10424-2.
+- [UNVERIFIED] Luo et al. (2026), "Unsupervised Anomaly Detection in Dynamic Graphs via Compatibility Modeling and Boundary Learning" (BAD), IJCAI 2026 (ijcai.org/proceedings/2026/0322.pdf).
+- [UNVERIFIED] Umeorah & Fadina (2026), "A Temporal Multiplex Graph Neural Network for Systemic Risk Transmission in Global Banking", arXiv:2608.27295 (CDS spreads are paid data).
+- [UNVERIFIED] Cappelletti, Voutaz & Frossard (2026), "Geodesics of Dynamic Graphs for Regime Change Detection", arXiv:2606.07151.

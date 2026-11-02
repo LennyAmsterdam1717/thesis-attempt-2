@@ -126,3 +126,14 @@ The authors also present the dataset as a real-world benchmark for temporal GNNs
 
 Access: **ScienceDirect blocks web fetch (client_error)**; logged once, not retried. Those papers are kept as [UNVERIFIED] leads.
 Decision A-1: plain distress/bankruptcy/fraud node classification on heterogeneous graphs = **crowded** (dozens of 2026 hits, mostly paywalled, Chinese data). Only angles that change the *task or evaluation* go forward.
+
+### Direction B queries (2026-11-02)
+1. `arXiv 2026 dynamic graph anomaly detection stock market correlation network` (extended): Caputi & Meadows 2604.02549; Schlinge et al. 2609.02965; AIR systematic review 2026; Springer bubble paper (10.1007/s10791-026-10424-2); 2510.17088 (Oct 2025, out).
+2. `2026 market manipulation detection graph neural network stocks pump and dump coordinated trading` (extended): almost all **crypto** (Losavio 2604.24590, PumpWatcher, PumpSense); equity manipulation work is order-book/high-frequency (not public) or social-media (AIMM, Dec 2025).
+3. `arXiv 2026 temporal graph anomaly detection benchmark continuous-time dynamic graph edge anomaly` (extended): DynGraphAgentBench 2609.33980; BAG (AAAI 2026); SimpleCount 2608.15965; TEMG-TTA (blockchain).
+4. `"BAG" "Benchmarking Anomaly Detection on Dynamic Graphs" Hua 2026` (standard): AAAI 2026 record; IJCAI 2026 BAD paper (lead).
+5. `arXiv 2026 systemic risk early warning graph neural network stock market crash network` (extended): Uddin 2604.14232 (FDIC); Umeorah & Fadina 2608.27295 (CDS); SRR 2512.17185 (Dec 2025, out).
+6. `arXiv 2026 regime change detection stock correlation network change point graph` (extended): ORCA 2604.17251; Geodesics 2606.07151 (lead); Treasury text regime 2605.30363 (noted for D).
+
+Access: **AAAI OJS (ojs.aaai.org) blocks web fetch** (bot protection); **Springer article pages are inconsistent** (Comput Econ page worked; AIR review failed). Logged, not retried.
+Decision B-1: finance-specific dynamic-graph anomaly work in 2026 is **thin** (a handful of preprints, mostly graph-level stress detection on small universes with very few labelled events). Generic DyGAD benchmarks (BAG, DynGraphAgentBench) contain **no equity data**. → B is relatively open, but the main risk is *ground truth* (few labelled events).
