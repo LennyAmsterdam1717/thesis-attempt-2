@@ -113,3 +113,16 @@ The authors also present the dataset as a real-world benchmark for temporal GNNs
 - [anchor] web search `"Temporal Graph Learning Framework for Lead-Lag Detection in Financial Markets"`: found
   DeltaLag (arXiv 2511.00390, **Nov 2025, so out of scope as evidence; background only**) and a Padova MSc thesis
   "GraphMixer in Financial Networks" (thesis.unipd.it, likely the anchor's precursor; [ABS], undated on the snippet).
+
+### Direction A queries (2026-11-02)
+1. `heterogeneous temporal graph neural network stock 2026 arXiv` (extended): found TH-GNN (shilling, off-topic), Fanshawe 2601.04602, Bukhori 2026 (BAREKENG), older THGNN (2022, background only).
+2. `heterogeneous graph company classification financial distress supply chain 2026` (extended): many 2026 distress/fraud/supply-chain-finance HGNN papers (mostly ScienceDirect/ResearchGate, Chinese markets); Ind_HGF (Comput Econ 2026).
+3. `arXiv 2026 LLM-constructed company knowledge graph stock relations heterogeneous GNN` (extended): Zhang 2607.10932; FinLLM-KG 2610.36083 (sentiment, KG at inference; noted for D); FinReflectKG (10-K triples, 700+ firms; a possible public data source, origin paper not opened).
+4. `2026 graph neural network industry classification companies embeddings 10-K peers` (extended): nothing 2026 on stocks; off-topic results.
+5. `arxiv 2026 "heterogeneous graph" stocks funds holdings mutual fund graph` (extended): **Izadifar & Rahmati 2607.12067 (13F node affinity)**; "Revisiting Simple Baselines for RDL" 2610.20534.
+6. `arxiv 2026 temporal heterogeneous graph benchmark financial node classification firms events` (extended): FinFraudBench 2608.15177; TTGBench 2609.08226 (text-attributed temporal graph benchmark; noted); BenchTGC 2601.12903.
+7. `arXiv 2026 stock heterogeneous graph explainability counterfactual explanation GNN market` (standard): CausalGraphX 2607.14416; XPlore 2603.04209 (general counterfactual GNN XAI); ICExplainer AAAI 2026.
+8. `2026 arXiv stock "heterogeneous graph" US equities S&P 500 relational sector supply chain GNN new task` (standard): Wade 2605.19278 (code, yfinance); IEEE Access 2603.05917 (20 stocks, price prediction; crowded type); OmniGNN 2510.10775 (**Oct 2025, out of scope**).
+
+Access: **ScienceDirect blocks web fetch (client_error)**; logged once, not retried. Those papers are kept as [UNVERIFIED] leads.
+Decision A-1: plain distress/bankruptcy/fraud node classification on heterogeneous graphs = **crowded** (dozens of 2026 hits, mostly paywalled, Chinese data). Only angles that change the *task or evaluation* go forward.
