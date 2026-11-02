@@ -171,3 +171,23 @@ Written at the top of `lit_review_2026.md`. Verdicts: A crowded (unless the task
 7. `institutional herding crowding detection anomaly 13F ownership network graph machine learning 2026` (standard): GeomHerd 2605.11645 appendix; crowding finance literature (2022–2023, background). Idea 6 weakened.
 8. `explainable temporal graph neural network counterfactual explanation financial link prediction lead-lag 2026` (standard): TemGX (ICLR 2026), MemExplainer (ICML 2026), QIEA-TGX (AAAI 2026); none on finance. Idea 10 folded into ideas 2 and 7.
 Killed: plain heterogeneous distress/fraud classification (crowded), new TGNN for return prediction (gate), crypto P&D (scope).
+
+## Phase 4 (2026-11-02)
+One-page summary written at the top of `topic_options_2026.md`. Recommendation: **C-1 + B-1 combined** (signed temporal lead-lag link
+prediction with a WP1 re-evaluation of the anchor, then surprise-based edge anomalies). Strongest alternative: A-2 (credit-event
+contagion + counterfactual XAI). Score arithmetic checked by script; `references.bib` parses (bibtexparser, 39 entries).
+
+## Status / where I stopped (2026-11-02)
+- **Done:** Phase 0 (anchor summary, [FT]); Phase 1 A/B/C (8/8/7 + anchor 2026 entries) + a D wildcard scan (7); Phase 2 crowding map;
+  Phase 3 (13 raw ideas with kill tests, 6 worked cards, 3 runner-ups); Phase 4 summary. All committed and pushed.
+- **Not done / caveats:**
+  - The anchor PDF was not attached in chat; the paper was identified from its DOI and read via Springer's PDF route.
+  - Google Scholar was **not tried** in this run (blocked in the previous project; the task said not to retry blocked sites). "Cited by" checks are left for Frank.
+  - Blocked or rate-limited: ScienceDirect (all), AAAI OJS, one Springer article page (AIR review), arXiv abs for 2610.33171 (twice).
+  - Most 2026 entries are [ABS]; only 7 are [FT] (anchor, A1, A2, A6, B1, B2, C1). Numbers come from web-fetch summaries and must be checked in the PDFs.
+  - Author lists to verify: llmriskmanager2026, g5shocks2026, memexplainer2026, temgx2026, geomherd2026, frontiers2026fundnetworks, he2022msgnn, ltifi2026leakagebench.
+- **Next actions (suggested):**
+  1. Open the high-priority [UNVERIFIED] items: Cartea et al. 2026 (JEF lead-lag); AIR 2026 systematic review (doi:10.1007/s10462-026-11532-7); arXiv 2610.33171 and 2609.35364; MSGNN/FiLL (check whether the FiLL data ship with PyTorch Geometric Signed Directed).
+  2. Open the anchor's data repo (`ivankrstev7/Temporal_Graphs_Lead_Lag_Data`) and check its format and licence; the repo has no visible licence.
+  3. Ask the supervisor the 8 questions in the summary (WRDS access decides A-1/A-2/C-2 risk).
+  4. After the go decision: full phase-1 literature review for the chosen topic, then the WP1 prototype (EdgeBank / PPR / volatility baselines on the anchor data).
