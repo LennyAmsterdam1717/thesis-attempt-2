@@ -157,3 +157,6 @@ Decision C-3: Firm-relation link prediction (supply chain / partnership) has a n
 3. `2026 look-ahead bias leakage stock prediction graph neural network benchmark reproducibility re-evaluation` (standard): "When Alpha Disappears" 2605.23959; Zenodo leakage-controlled benchmark; Look-Ahead-Bench 2601.13770; DatedGPT 2603.11838.
 Decision D-1: **Evaluation rigour** is a hot 2026 theme in both temporal-graph ML (C4, C5, B4) and financial ML (D1–D3), but **nobody has joined the two for stock graphs**. This is a strong wildcard.
 Decision D-2: Credit-default contagion into equities via *public* data (EDGAR 8-K Item 1.03 + 10-K customer disclosures) shows no 2026 graph-ML paper; all 2026 default-GNN papers use private transaction/guarantee/tax data.
+
+## Phase 2: crowding map (2026-11-02)
+Written at the top of `lit_review_2026.md`. Verdicts: A crowded (unless the task changes); B moderately open in finance (label scarcity is the bottleneck); C open for stock lead-lag / signed / firm-relation LP, with a ready 2026 evaluation-critique toolkit; D rigour × stock graphs and public default contagion open.

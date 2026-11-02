@@ -9,7 +9,51 @@ Reference point throughout: **Krstev, Rigoni, Mishkovski & Pasa (2026)**, *Machi
 "A Temporal Graph Learning Framework for Lead-Lag Detection in Financial Markets" (the **anchor**; summary in
 `NOTES.md`). Each entry ends with a line saying how it relates to the anchor.
 
-<!-- CROWDING MAP (Phase 2) GOES HERE -->
+## Crowding map (Phase 2)
+
+Counts are **what this run found and opened or recorded**, not exhaustive bibliometrics (Google Scholar was not used, see
+NOTES.md). "Snippet-level" = 2026 papers seen only in search results (not opened, not used as evidence).
+
+| | **A. Heterogeneous-graph classification** | **B. Anomaly detection (dynamic graphs)** | **C. Link prediction** | **D. Wildcards** |
+|---|---|---|---|---|
+| 2026 entries in this review | 8 (2 [FT], 6 [ABS]) | 8 (2 [FT], 6 [ABS]) | 7 + anchor (2 [FT], 5 [ABS]) | 7 [ABS] |
+| Snippet-level 2026 hits (not opened) | **≥ 10** (distress, fraud, supply-chain-finance HGNNs) | ≈ 5 | ≈ 4 | ≈ 3 |
+| Stock/company-specific 2026 papers | Many, but most are **distress / fraud node classification on Chinese firms** | **Few**: TSX-60 stress (B1), ETF crash/rally (B2), crypto P&D (B6), banks (B7) | **Very few**: anchor; correlation-edge regression (A1); 13F weights (A2) | Leakage audits (D1–D3); private-data default GNNs (D5) |
+| Dominant venues | ESWA, Information Sciences, KBS, Comput. Econ., IEEE Access; arXiv q-fin | arXiv (cs.LG, q-fin.RM); AAAI/IJCAI for *generic* DyGAD | Machine Learning (anchor); arXiv cs.LG/cs.SI for generic TLP evaluation | arXiv q-fin, RePEc, Zenodo |
+| Shared benchmarks | None for stocks; FinFraudBench (transactions); RelBench (generic) | BAG / DynGraphAgentBench (Reddit, Wiki, MOOC: **no equities**); CFSI stress dates | TGB / TGB 2.0 / DyGLib (**no equity dataset**); anchor's 37-node set is the only lead-lag TGNN benchmark | Leakage-controlled harness (D2) |
+| Data in practice | Paid/proprietary (WRDS, CSMAR, Capital IQ) or private (tax invoices, guarantees) | yfinance (B1), EODHD (B2), FDIC (B7) | CityFalcon (anchor, commercial sentiment), WRDS (A1), **EDGAR 13F (A2, free)** | Mixed |
+| Typical weakness seen | New fusion module + accuracy gain; weak baselines; no temporal rigour | Very few labelled events (7 in B1); graph-level only, no localisation; negative edges dropped | Random single negatives; no EdgeBank/PPR/count baselines; tiny universes; **unsigned** | n/a |
+| **Crowding verdict** | **Crowded** for plain node classification (supervisor is right). Open only if the *task* changes (ownership dynamics, counterfactual explanation on real data, LLM-typed edges validated against market behaviour). | **Moderately open** in finance (methods mature, finance applications thin, labels are the bottleneck). | **Open** for stock lead-lag / signed / firm-relation temporal LP; **crowded** for generic TLP architecture papers. The 2026 "simple baselines win" wave is a ready-made rigour toolkit. | Rigour × stock graphs and public-data default contagion look **open**. |
+
+### What is left open (per direction, 2026 evidence only)
+- **A.** (i) Node-level tasks on **temporal heterogeneous ownership graphs** (13F: who will *enter/exit* a stock), where A2 shows
+  levels are trivially persistent but changes are not studied; (ii) **counterfactual explanations on real, public** company
+  graphs (A5 is synthetic only); (iii) LLM-extracted typed edges (A3, C2) tested on **real** market outcomes; (iv) honest
+  simple-baseline comparisons (A7) for company graphs.
+- **B.** (i) **Edge-level** anomaly scoring in market graphs (B1/B2 are graph-level); (ii) using a *link predictor's surprise*
+  as an anomaly score (anchor + BAG family); (iii) public event-based ground truth (8-K filings, earnings dates, 2025 tariff
+  windows, SEC litigation releases) to replace 7 stress dates; (iv) count/recency baselines (B4) never applied to finance.
+- **C.** (i) **Signed temporal lead-lag link prediction** (same vs opposite direction), absent from the anchor and from C1's
+  data; (ii) **rigorous re-evaluation** of the anchor with EdgeBank, time-decay PPR, all-entity ranking, historical negatives
+  and a larger universe (C4, C5); (iii) **firm-relation priors** (supply chain, common ownership, LLM-extracted links) as
+  explanatory edge types for lead-lag (C2, C3, A2); (iv) residualised (market/sector-neutral) edge definitions.
+- **D.** (i) Leakage audit of temporal stock-graph benchmarks (D1–D3 × C4/C5); (ii) public-data credit-event contagion
+  (EDGAR 8-K Item 1.03) into linked firms' equity; (iii) tariff/sanction windows as stress tests for learned graphs.
+
+### Comparison table (papers most relevant to topic design)
+
+| Paper | Graph | Signed? | Task | Data public? | Code? | Relation to anchor |
+|---|---|---|---|---|---|---|
+| Anchor (Krstev et al.) | temporal, homogeneous, directed | no (same-direction only) | link prediction | processed set yes; sentiment commercial | yes | — |
+| A1 Fanshawe et al. | daily snapshots, typed edges | **yes** | edge regression | no (WRDS) | no | signed counterpart, regression not LP |
+| A2 Izadifar & Rahmati | temporal bipartite (heterog.) | no | node affinity (edge weights) | **yes (13F)** | yes | ownership instead of co-movement |
+| A6 Wade | snapshot multi-graph | partly (\|ρ\|) | node regression | **yes (yfinance)** | yes | reproducible template |
+| B1 Caputi & Meadows | snapshot correlation graphs | negatives dropped | graph-level AD | **yes** | yes | snapshot vs edge level |
+| B3 BAG | CTDG/DTDG | no | node/edge AD | generic | yes | same model family, no finance data |
+| C1 Regier et al. | temporal signed | **yes** | sign prediction | Bitcoin trust nets | yes | signs without market edges |
+| C2 Köse et al. | temporal multi-relational firms | no | reconstruction | to verify | to verify | typed firm links for lead-lag priors |
+| C4 Yu & Ha / C5 Fei et al. | CTDG | no | LP evaluation | generic | ?/? | evaluation toolkit the anchor lacks |
+
 
 ---
 
