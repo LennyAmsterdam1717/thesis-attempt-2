@@ -165,3 +165,62 @@ Frank 5 → **55 / 70**. Gates: pass. Feasibility is the weak point.
 **13. Questions for the supervisor.** Is event-study labelling (abnormal returns) acceptable as ground truth? Would she accept the
 broadened "severe negative shock" fallback? Can we get WRDS Compustat Customer Segments (would remove the extraction risk)?
 Is the XAI evaluation enough of an AI contribution, or should the model itself be novel?
+
+---
+
+### Card B-1: "Surprise edges": edge-level anomaly detection in signed lead-lag streams
+
+**1. Pitch.** Train a temporal link predictor on daily signed lead-lag edges (as in the anchor, extended with signs), then flag the
+edges it did **not** expect (new pairs, sign flips, expected links that vanish) as anomalies, and test whether these cluster around
+public information events.
+
+**2. Research question.** Is link-prediction surprise a useful *edge-level* anomaly score for stock networks, beyond count/recency
+baselines and graph-level detectors?
+- SQ1: Which surprise types (unexpected edge, missing edge, sign flip) concentrate around firm events (8-K filings, earnings releases) and macro/political events (FOMC, the 2025 tariff windows)?
+- SQ2: Does edge-level localisation explain graph-level stress signals (as in B1 Caputi & Meadows)?
+- SQ3: How do learned detectors compare with SimpleCount-type baselines and BAG detectors on injected anomalies with known ground truth?
+
+**3. Supervisor directions hit.** **Anomaly detection** · temporal · **signed, time-activated edges** · link prediction · time series + graph.
+
+**4. Closest 2026 work and the difference.**
+- B1 Caputi & Meadows 2026 [FT]: graph-level anomalies on correlation snapshots, 7 labelled events, negative edges dropped. → Edge-level, signed, event-calendar evaluation.
+- B2 ORCA 2026 [FT]: network features for crash/rally classification. → Unsupervised localisation, not index-level classification.
+- B3 BAG (AAAI 2026) [ABS], B8 DynGraphAgentBench [ABS]: dynamic-graph anomaly benchmarks with **no equity data**. → Contributes a financial dataset and protocol.
+- B4 SimpleCount 2026 [ABS]: one-feature baselines often win. → Mandatory baseline.
+- **Anchor**: *transfer*. Turns the anchor's link predictor into a detector (prediction → surprise), and *extends* it with signs and an event-based evaluation.
+
+**5. Kill test.** Queries: `temporal link prediction anomaly score unexpected edges stock market network earnings announcement graph 2026`;
+`arXiv 2026 dynamic graph anomaly detection stock market correlation network`; `… temporal graph anomaly detection benchmark …`.
+Nothing on edge-level anomalies in market lead-lag graphs; the 2024 TGN financial-anomaly paper (arXiv 2404.00060, background)
+is transaction fraud. **Survives.**
+
+**6. Data and access risk.** Daily prices for S&P 500 constituents (Stooq; yfinance is unofficial, so check terms). Event calendars, all
+public: EDGAR 8-K filing timestamps (Item 2.02 = earnings results; Item 1.01/2.01 = deals; Item 1.03 = bankruptcy), FOMC dates
+(federalreserve.gov), the 2025 tariff announcement dates (public record). Stress index: OFR Financial Stress Index **[UNVERIFIED]**.
+**Risk: low–medium** (8-K item-level parsing is routine with EDGAR indices).
+
+**7. Method sketch.** (a) Edge stream: residual returns (market + sector factors removed); edge i → j at day t if both exceed a
+quantile threshold at lag τ, sign = sign(e_i(t)·e_j(t+τ)) (shared with C-1). (b) Predictors: GraphMixer/TGN via DyGLib or the anchor's
+TGL code; a signed head. (c) Anomaly score = −log p(observed edge) and p(expected-but-absent edge); sign-flip score from the sign head.
+(d) Comparators: SimpleCount-style count/recency/novelty features, Isolation Forest on edge features, BAG detectors (code:
+<https://github.com/frhuaaa/BAG>), and B1's graph-level GlocalKD.
+
+**8. Baselines and evaluation.** (i) **Injected anomalies** (BAG-style synthetic edges/sign flips) → AUROC/AUPRC with true labels;
+(ii) **event enrichment**: precision@k of the top-k anomalies falling within ±1 trading day of an event at either endpoint, compared
+with degree- and volatility-matched random edges (important: the volatility control prevents "anomaly = big move");
+(iii) graph-level: aggregate edge surprise vs stress dates as in B1. Chronological deployment windows (as in B8); no fitting on test windows.
+
+**9. Artefact.** Daily "surprise board": the top unexpected links (A → B, sign, surprise score), each with the nearest public event
+(an 8-K headline, an earnings date) and a link to the filing. A natural market-surveillance analyst view.
+
+**10. Feasibility, risks, fallback.** Weeks 1–6 review; 7–11 edge stream + event calendars; 12–17 predictors + detectors; 18–23
+evaluations (i)–(iii); 24–30 writing. Risk: proxy labels are weak and anomalies may just track volatility (hence the matched controls).
+**Fallback:** report injected-anomaly results + graph-level comparison with B1; event enrichment as exploratory analysis.
+
+**11. Ethics.** Company-level only. Flagged "anomalies" are not accusations of manipulation; the thesis must say so. No personal data.
+
+**12. Scores (§9).** Novelty 4 (12) · fit 5 (10) · data 4 (8) · feasibility 4 (8) · evaluation 3 · AI 4 · artefact 5 · industry 4 ·
+Frank 4 → **58 / 70**. Gates: pass.
+
+**13. Questions for the supervisor.** Is an event-enrichment evaluation (no true per-edge labels) acceptable for an MSc thesis, if
+backed by injected anomalies? Should B-1 be combined with C-1 (shared edge stream) as one thesis with two chapters?
