@@ -224,3 +224,55 @@ Frank 4 → **58 / 70**. Gates: pass.
 
 **13. Questions for the supervisor.** Is an event-enrichment evaluation (no true per-edge labels) acceptable for an MSc thesis, if
 backed by injected anomalies? Should B-1 be combined with C-1 (shared edge stream) as one thesis with two chapters?
+
+---
+
+### Card B-2: Crowding anomalies in the 13F ownership graph
+
+**1. Pitch.** Treat quarterly institutional holdings as a dynamic bipartite graph and use dynamic-graph anomaly detectors to spot
+abnormal *coordinated* position changes (crowding into, or herding out of, a stock), then test whether these anomalies precede
+stock-level crash risk or volatility spikes.
+
+**2. Research question.** Do dynamic-graph anomaly scores on the 13F manager–stock graph identify crowding episodes that predict
+next-quarter tail risk better than standard ownership-based crowding measures?
+- SQ1: Which detectors (CTDG vs DTDG; learned vs count-based) give scores that carry forward-looking information?
+- SQ2: Are anomalies concentrated in particular manager types (e.g. high-turnover) or sectors?
+- SQ3: Do market-wide anomaly counts line up with known stress quarters (as GeomHerd reports qualitatively)?
+
+**3. Supervisor directions hit.** Anomaly detection · temporal · heterogeneous (bipartite) graph · links (position entries/exits).
+
+**4. Closest 2026 work and the difference.**
+- GeomHerd 2026 (arXiv 2605.11645) [ABS]: Ricci curvature on a 13F fund-overlap graph; qualitative recovery of stress quarters, quantitative comparison deferred. → We do the quantitative, stock-level evaluation with ML detectors.
+- A2 Izadifar & Rahmati 2026 [FT]: same data, prediction of weights. → Anomalies in *changes* rather than forecasts of levels.
+- B3 BAG 2026 [ABS] and B4 SimpleCount 2026 [ABS]: detector zoo + mandatory simple baselines, no financial data.
+- **Anchor**: *differs*. Ownership edges instead of price edges; it shares the TGNN model family and could add the anchor's lead-lag edges as a covariate graph.
+
+**5. Kill test.** Queries: `institutional herding crowding detection anomaly 13F ownership network graph machine learning 2026`;
+`13F institutional holdings … graph neural network temporal bipartite 2026`. Found GeomHerd (appendix only), Frontiers AI 2026
+(aggregate indicators, China) and older crowding-signal work (arXiv 2306.08105, 2023, background). **Weakened** (the idea is
+known in finance; the ML-detector + evaluation angle is open).
+
+**6. Data and access risk.** SEC 13F (free), prices and volumes (Stooq/yfinance) for outcomes and a days-of-volume crowding proxy.
+**Risk: medium** (same 13F mapping effort as A-1; the two can share a pipeline).
+
+**7. Method sketch.** Quarterly DTDG snapshots and a CTDG stream of position-change events; detectors from BAG (TGN-, TGAT-,
+DyGFormer-based, plus classical), SimpleCount-style features, Isolation Forest; node-level (stock) anomaly score = aggregated
+edge-event anomaly. Outcomes: next-quarter max drawdown, realised volatility, crash indicator (bottom-decile return).
+
+**8. Baselines and evaluation.** Ownership-breadth change, institutional ownership concentration (HHI), days-ADV proxy, GeomHerd-style
+curvature. Metrics: AUROC/AUPRC for top-decile drawdown, rank correlation with realised volatility, simple portfolio sorts (secondary).
+Strictly chronological; features available only after the filing date (45-day lag).
+
+**9. Artefact.** "Crowding monitor": quarterly heat-map of stocks with anomalous coordinated buying/selling, drill-down to the managers involved.
+
+**10. Feasibility, risks, fallback.** Weeks 1–6 review; 7–12 13F pipeline; 13–19 detectors; 20–24 outcome tests; 25–30 writing.
+Risks: only ~50 quarters (few time steps); signal may duplicate known crowding measures. **Fallback:** a descriptive + predictive
+comparison of graph-based vs classical crowding measures on S&P 500 stocks.
+
+**11. Ethics.** As A-1: exclude or pseudonymise natural-person filers. Do not present results as allegations of coordination.
+
+**12. Scores (§9).** Novelty 3 (9) · fit 4 (8) · data 4 (8) · feasibility 4 (8) · evaluation 3 · AI 3 · artefact 4 · industry 4 ·
+Frank 3 → **50 / 70**. Gates: pass.
+
+**13. Questions for the supervisor.** Is ownership-based anomaly detection close enough to her "stock network" idea? Would she prefer
+B-1 (price graphs) over B-2 if only one anomaly topic is pursued?
