@@ -5,7 +5,55 @@ Financial Markets", *Machine Learning* 115:173 (see `NOTES.md` Phase 0). Every o
 **transfers** or **differs** from the anchor. Literature and crowding evidence: `lit_review_2026.md`. Citations use the
 entry codes there (A1…D7, C0 = anchor). Legend: [FT] / [ABS] / [UNVERIFIED] / [BACKGROUND].
 
-<!-- PHASE 4 SUMMARY GOES HERE -->
+## One-page summary (read this first)
+
+**What the 2026 literature shows.** (1) *Heterogeneous-graph classification* of companies is crowded: ≥ 10 new 2026
+distress/fraud/supply-chain-finance node classifiers, mostly on paywalled or Chinese data. The supervisor's "classification is
+done" holds; only task changes are open. (2) *Anomaly detection* has mature generic tools (BAG, AAAI 2026; DynGraphAgentBench)
+but almost no equity applications. The few that exist are graph-level with very few labelled events (TSX-60: 7 stress dates).
+(3) *Temporal link prediction on stock graphs* is nearly empty: the anchor is the only TGNN lead-lag benchmark, and it is
+**unsigned, 37 assets, random single negatives, no memorisation baseline**. Meanwhile a strong 2026 wave in temporal-graph ML
+shows that EdgeBank-style memorisation, time-decay PageRank and count baselines often match TGNNs (C4, C5, B4). Nobody has
+applied that critique to financial graphs. (4) Public data are workable: prices (Stooq/yfinance), SEC EDGAR (8-K events,
+10-K text, 13F holdings), FRED and the Kenneth French library. CDS/WRDS are not needed for the top options.
+
+**Best option per direction**
+- **A (heterogeneous, non-standard classification): A-2 "Contagion exposure after credit events, explained counterfactually" (55/70).**
+  It takes up the supervisor's credit-default idea and Frank's XAI background, and is novel against 2026 work (CausalGraphX is synthetic;
+  DefaultGNN uses private data). The risk is data: few events and supply-link extraction. *Safer alternative:* **A-1 "Who buys next?"**
+  (13F entry/exit events, 55/70), which has clean free data and a 2026 benchmark (A2) to extend.
+  *vs anchor:* A-2 uses the anchor's lead-lag edges as one relation in an event-conditioned task; A-1 transfers the anchor's TGNN
+  link-prediction framework to ownership edges.
+- **B (anomaly detection): B-1 "Surprise edges" (58/70).** It turns a lead-lag link predictor into an edge-level anomaly detector,
+  evaluated with injected anomalies and public event calendars (8-K filings, earnings dates, FOMC, 2025 tariffs) against volatility-matched
+  controls. *vs anchor:* a direct **transfer** (predictor → detector) plus signs.
+- **C (link prediction): C-1 "Signed temporal lead-lag link prediction, done rigorously" (58/70).** WP1 re-tests the anchor on its own
+  public data with 2026 baselines and all-entity ranking; WP2 adds opposite-direction (−) edges on market/sector-neutral returns and
+  predicts existence + sign; WP3 tests transfer (S&P 500 → AEX) and regimes. *vs anchor:* a direct **extension and stress test**.
+
+**Overall recommendation: one thesis combining C-1 and B-1.** Working title: *"Signed temporal lead-lag networks of stocks:
+rigorous link prediction and surprise-based anomaly detection."* It hits the supervisor's three strongest signals (**signed
+time-activated influence edges + time series**, **link prediction**, **anomaly detection**), shares one public-data pipeline, has a
+low-risk first result (WP1 audit of a July-2026 *Machine Learning* paper), and yields a usable artefact (a lead-lag explorer plus a
+daily "surprise board"). The 2025 tariff windows (D-2) give Frank's politics interest an evaluation chapter. *If Frank prefers the
+credit or XAI angle:* A-2, with its "severe negative shock" fallback, is the strongest alternative. C-2 (economic links → lead-lag) is
+the natural follow-up if supply-chain data turn out easier than expected.
+
+**Questions for Dr. Karnstedt-Hulpuș**
+1. Is a thesis whose first result may be "the 2026 state of the art mostly learns memorisation/volatility" welcome, or must it also propose a new model?
+2. For signed lead-lag edges: thresholded co-exceedance (as the anchor) or a statistical lead-lag measure? Is residualising on market/sector factors expected?
+3. For anomaly detection without true labels: is injected-anomaly + event-enrichment evaluation acceptable at MSc level?
+4. Does UU give MSc students WRDS access (Compustat Customer Segments, Thomson 13F)? This decides whether A-2 / C-2 / A-1 are low or high risk.
+5. Is an ownership (13F) graph acceptable as a "stock network" (A-1, B-2)?
+6. Should the thesis include a European universe (AEX/Euronext) for relevance in the Netherlands?
+7. Does her group's TGNN/temporal-motif work (LAS-GNN, TAML) offer code or models we should build on for C-1/B-1?
+8. Which venues would she target if the WP1 audit is publishable on its own (e.g. ICAIF 2027 workshop, LoG)?
+
+**Caveats.** All literature is from web search plus web fetch (no Google Scholar; ScienceDirect, AAAI OJS and some Springer pages
+were blocked). Many entries are [ABS]. Before the proposal, open the [UNVERIFIED] items flagged as important, especially
+**Cartea et al. 2026 (J. Empirical Finance) on lead-lag**, the **2026 AIR systematic review of dynamic-graph anomaly detection**,
+and arXiv **2610.33171** / **2609.35364** (TLP baselines), and run Google Scholar "cited by" on the anchor.
+
 
 ---
 
