@@ -40,3 +40,64 @@ cards in Part 3. Idea 3 is recommended as **work package 1** of the C cards.
 Scoring weights: novelty ×3, supervisor fit ×2, data ×2, feasibility ×2, evaluation clarity ×1, AI relevance ×1,
 artefact ×1, industry ×1, Frank's interests ×1. **Maximum 70.** All gates (public data; not plain classification/return
 prediction; ≥ 1 concrete 2026 closest work; ~30-week feasible) are checked per card.
+
+---
+
+### Card A-1: "Who buys next?" Classifying institutional position changes on a temporal heterogeneous ownership graph
+
+**1. Pitch.** Instead of forecasting portfolio *levels* (nearly trivial, because portfolios persist), predict the *events*
+(entry, exit, large increase, large decrease) on a quarterly manager–stock graph from SEC 13F filings, with stock–stock
+co-movement/lead-lag edges as a second relation.
+
+**2. Research question.** Can a temporal heterogeneous graph model of institutional ownership predict next-quarter
+position-change events better than persistence, memorisation and tabular baselines?
+- SQ1: Does adding a stock–stock relation (rolling co-movement or anchor-style lead-lag edges) improve prediction, i.e. is the heterogeneity worth it?
+- SQ2: Which managers and stocks are predictable (by manager size, turnover, style; stock size, sector)?
+- SQ3 (light economic check): do predicted entries/exits relate to next-quarter abnormal returns or volatility?
+
+**3. Supervisor directions hit.** Heterogeneous graph (non-standard classification: edge *events*) · temporal · link prediction
+(entry = edge birth, exit = edge death) · time series + graph.
+
+**4. Closest 2026 work and the difference.**
+- A2 Izadifar & Rahmati 2026 [FT]: same 13F bipartite graph, but predicts weights (node affinity); persistence/EMA nearly win.
+  → We predict **changes** (classification of edge events), which their result shows is where the open problem is.
+- Frontiers in AI 2026 (fund–stock graphs, LLM forecasting) [ABS]: aggregate network indicators, Chinese funds. → We predict at the manager–stock level, on US public data.
+- GeomHerd 2026 [ABS]: 13F overlap graph used qualitatively for herding. → We use a supervised, evaluated prediction task.
+- **Anchor**: *transfer*. Reuses the anchor's TGNN link-prediction framing and model zoo (TGN, TGAT, GraphMixer) on ownership edges,
+  and tests the anchor's own lead-lag edges as an extra relation. It *differs* in being heterogeneous and event-typed.
+
+**5. Kill test.** Queries: `13F institutional holdings entry exit prediction graph neural network temporal bipartite 2026`;
+`institutional herding crowding detection anomaly 13F ownership network graph machine learning 2026`. Found only A2, the
+Frontiers paper and GeomHerd (above). No entry/exit event classification on a graph. **Weakened → survives.**
+
+**6. Data and access risk.** SEC EDGAR 13F-HR information tables (free; quarterly since 2013 in XML; SEC's structured "Form 13F
+data sets" exist per secondary sources, **[UNVERIFIED]** exact coverage). CUSIP → ticker mapping via SEC's quarterly
+"Official List of Section 13(f) Securities" **[UNVERIFIED]** plus fuzzy matching as in A2. Prices from Stooq/yfinance.
+**Risk: medium** (identifier mapping and filing amendments are the main effort; A2's code shows it is doable).
+
+**7. Method sketch.** Quarterly snapshots 2013–2026 with manager→stock edges weighted by portfolio weight; stock→stock edges from
+rolling residual co-movement. Event labels per (manager, stock, quarter): entry / exit / up > 25 % / down > 25 % / no change.
+Models: (i) TGB/DyGLib temporal models (TGN, DyGFormer) on the bipartite stream; (ii) heterogeneous snapshot model
+(PyG `HeteroConv` + GRU, or HGT); (iii) LightGBM on hand-made graph features (strong tabular baseline). Code base: A2's repo
+(<https://github.com/e-izdfr/portfolio-holdings-prediction>), TGB, PyG.
+
+**8. Baselines and evaluation.** Persistence, EMA, EdgeBank, stock popularity (entry rate), manager-history frequency, LightGBM.
+Metrics: AUPRC per event class (imbalanced), Recall@k / MRR for "which stocks will manager *m* enter". **Chronological split by
+filing date** (13F is filed up to 45 days after quarter end; features may only use filings already public at prediction time);
+the last 8 quarters are the test set.
+
+**9. Artefact.** "Manager radar": per manager, predicted entries/exits with confidence; per stock, predicted net institutional flow;
+attention or attribution showing which co-holders and correlated stocks drove the prediction.
+
+**10. Feasibility (30 weeks), risks, fallback.** Weeks 1–6 review + proposal; 7–12 13F pipeline and mapping (reuse A2); 13–19
+baselines + temporal models; 20–24 heterogeneity ablation (SQ1) + SQ2/SQ3; 25–30 writing. Risks: identifier mapping; few
+time steps (~50 quarters); strong persistence. **Fallback:** binary entry prediction on S&P 500 stocks for the top-500 managers by AUM.
+
+**11. Ethics.** Most 13F filers are firms (legal persons). Some are individuals or family offices, i.e. natural persons, so GDPR
+applies to those: exclude or pseudonymise filers that are natural persons. No investment advice; aggregate reporting.
+
+**12. Scores (§9).** Novelty 4 (×3 = 12) · fit 4 (8) · data 4 (8) · feasibility 4 (8) · evaluation 4 · AI relevance 4 · artefact 4 ·
+industry 4 · Frank's interests 3 → **55 / 70**. Gates: all pass.
+
+**13. Questions for the supervisor.** Is an *ownership* network acceptable as "stock network" for this thesis? Is classifying edge
+events (entry/exit) "non-standard" enough? Does UU give MSc students WRDS access (Thomson/Refinitiv s34 13F would remove the mapping risk)?
