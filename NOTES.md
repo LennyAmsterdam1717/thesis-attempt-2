@@ -1,0 +1,115 @@
+# NOTES.md: decision log (thesis-attempt-2)
+
+Run started 2026-11-02 (Europe/Amsterdam). Scope: thesis options for ML on stock/company networks,
+directions **A** (heterogeneous-graph classification, non-standard angle), **B** (anomaly detection in
+dynamic market/company graphs), **C** (link prediction: signed / lead-lag / supply chain / ownership /
+co-mention), **D** (creative wildcards). Literature rule for this run: **first published or first posted in
+2026 only**; dataset/library origin papers allowed as [BACKGROUND].
+
+Verification legend: **[FT]** full text opened · **[ABS]** abstract/record page only · **[UNVERIFIED]** not opened.
+
+---
+
+## Phase 0: Anchor paper
+
+**Krstev, I., Rigoni, D., Mishkovski, I., & Pasa, L. (2026). A Temporal Graph Learning Framework for Lead-Lag
+Detection in Financial Markets. *Machine Learning* 115(7), article 173. doi:10.1007/s10994-026-07113-y.**
+Published online 8 July 2026, peer-reviewed journal, open access (CC BY 4.0). **[FT]**: full PDF read via
+web fetch of `link.springer.com/content/pdf/...` (the HTML article page was rate-limited twice; the PDF route
+worked). Bibliographic data checked against the Crossref record.
+Note: the PDF was **not** attached to the chat (the uploads folder was empty) and the title in the prompt was a
+placeholder, so I identified the paper from its DOI.
+
+### Task
+Lead-lag detection framed as **temporal link prediction** on a dynamic graph: given the history up to day *t*,
+predict whether a directed edge *i → j* (asset *i* moves on day *t*, asset *j* follows on day *t+τ*) will appear.
+The authors also present the dataset as a real-world benchmark for temporal GNNs (TGNNs).
+
+### Graph type
+- **Temporal (event-based, continuous-time style), directed, homogeneous** (one node type "asset", one edge type).
+- **Not signed in the signed-network sense.** Two scenarios: (i) "positive and negative": leader and follower move
+  more than ε **in the same direction**, either up or down; (ii) "positive only": both rise. Opposite-direction
+  (A up → B down) influence is **not modelled**. Edge sign/magnitude is not a prediction target.
+- Edge rule: |r_i(t)| ≥ ε and |r_j(t+τ)| ≥ ε, same sign; ε = 5 %, τ = 1 trading day. So an edge means
+  *co-exceedance of large moves one day apart*, not a statistically tested lead-lag (no Granger test or
+  cross-correlation significance).
+- Sparse: average degree ≈ 3.0, ≈ 14 edges/day with very high variance (SD ≈ 35), so edges cluster on
+  volatile days.
+
+### Data
+- 37 nodes: 29 US-listed companies (e.g. Tesla, NVIDIA, Ford) + 8 commodities (e.g. gold, crude oil),
+  5 sectors (energy, technology, materials, automotive, industrials). Daily, 2019-06-17 to 2024-06-12,
+  1,257 trading days.
+- Node features: OHLC, returns, VWAP, technical indicators (ADX, RSI, Williams %R, DEMA, TEMA, WMA, SD);
+  **daily sentiment from the CityFalcon API** (commercial); short asset descriptions written by GPT-4o and
+  embedded with `paraphrase-MiniLM-L6-v2` (384-d).
+- Prices from City Falcon APIs (NYSE, CME); the code repo also has an `Extract_FMP_Data.ipynb` notebook
+  (Financial Modeling Prep, a freemium API). **The processed dataset is public on GitHub**, but rebuilding it or
+  extending it to new assets needs commercial sentiment data → for a thesis, swap in free sentiment (e.g. GDELT tone
+  or a FinBERT model run on public headlines) or drop sentiment.
+
+### Method
+- Benchmarks nine deep models: LSTM (no graph), JODIE, DySAT, TGAT, TGN, APAN, GraphMixer (GM), GM-TNF (the authors'
+  GM variant with temporal node features), CGLR (adapted from Xiao et al. 2025). Non-deep baselines: ARIMA,
+  ARIMA-pairwise (AR(5) on each pair's binary edge series), CGLR-LLED (FFT cross-correlation at lag τ).
+- Protocol: **strictly chronological split** (train to 2023-06-19, validation and test 130 days each);
+  5 seeds; BCE loss, Adam lr 1e-4, 90 epochs; Colab T4 GPU. Metrics: AP, AUC, Recall@{1,5,10}, MRR.
+  Friedman + Conover post-hoc with critical-difference diagrams.
+- **Negative sampling: one random destination** (for AP/AUC); all other destinations for R@k/MRR. The
+  authors note that true positives can be sampled as negatives.
+
+### Main results
+- **GraphMixer wins** (AP ≈ 0.79, AUC ≈ 0.85, MRR ≈ 0.47 in the positive-and-negative setting; similar in
+  positive-only). JODIE/TGN AP ≈ 0.73–0.74; LSTM ≈ 0.52 (chance level); ARIMA-pairwise 0.675.
+- Ablation: most models do best with *only* the text-description embeddings; adding price and other features
+  usually hurts, except for GM. Adding temporal node features (GM-TNF) does not help → the edge history carries
+  most of the signal.
+- Sensitivity over ε ∈ {4,5,6}, τ ∈ {1,…,21}: best AP at ε = 6, τ = 21, but they keep ε = 5, τ = 1.
+- Stable under the COVID regime (Appendix H), with higher variance.
+
+### Code
+- Code: <https://github.com/ivankrstev7/temporal_graph_lead_lag_detection> (exists, checked 2026-11-02: 2
+  commits, notebooks `TGL_lead_lag.ipynb`, `GraphMixer_lead_lag.ipynb`, `build_dataset.ipynb`,
+  `Extract_FMP_Data.ipynb`, `Extract_Sentiment_Data.ipynb`, plus vendored `tgl/` and `GraphMixer/`; no
+  license shown on the page). Builds on **TGL** (Zhou et al. 2022) and the GraphMixer reference code.
+- Data: <https://github.com/ivankrstev7/Temporal_Graphs_Lead_Lag_Data/> (link from the paper; not opened).
+
+### What the anchor leaves open (my reading; these drive the topic ideas)
+1. **Evaluation weakness.** Random one-destination negatives on a 37-node graph with hub-like volatile nodes
+   make AP easy to inflate. There is no memorisation baseline (EdgeBank) and no node-degree or volatility
+   baseline, and no historical or inductive negative sampling (TGB-style). The authors' own warning that
+   results may reflect the volatility of specific stocks points the same way. → Is GM learning *lead-lag* or *who is
+   volatile*? (rigour angle, D/C)
+2. **No real signed or opposite-direction influence.** A↑ → B↓ (hedges, substitutes, competitors) is excluded.
+   Signed temporal link-sign prediction is open. (C, supervisor's capitalised point)
+3. **Homogeneous, tiny universe.** 37 nodes; no sector, supply-chain, ownership or news-co-mention relations
+   as typed edges. → heterogeneous temporal graph: does structural company knowledge help predict lead-lag
+   edges? (A/C)
+4. **Edge semantics.** Thresholded co-exceedance confuses common market/sector shocks with pairwise
+   lead-lag. Removing market/sector factors (residual returns) before building edges is an obvious and
+   untested improvement.
+5. **No anomaly view.** Which lead-lag edges are *unexpected* given the learned dynamics (e.g. around
+   earnings, sanctions, defaults)? (B)
+6. **No economic or interpretability evaluation.** Their future work names interpretability, which fits
+   Frank's XAI background.
+7. Future work they name themselves: larger datasets, other domains (crypto), interpretability.
+
+---
+
+## Access tests (this run)
+
+| Resource | Result | Date |
+| --- | --- | --- |
+| link.springer.com article HTML (web fetch) | rate-limited twice (`RATE_LIMIT_EXCEEDED`) → not retried | 2026-11-02 |
+| link.springer.com `/content/pdf/` (web fetch) | **works**, full text extracted | 2026-11-02 |
+| api.crossref.org (web fetch) | works (metadata + reference list) | 2026-11-02 |
+| GitHub web page (web fetch) | works | 2026-11-02 |
+| GitHub API from shell (`gh api`) for repos not attached to session | 403 (session-scoped) → use web fetch instead | 2026-11-02 |
+
+## Search log
+(Queries per direction appended below as the search proceeds.)
+
+- [anchor] web search `"10.1007/s10994-026-07113-y"`: only other MLJ papers; Crossref fetch found the title.
+- [anchor] web search `"Temporal Graph Learning Framework for Lead-Lag Detection in Financial Markets"`: found
+  DeltaLag (arXiv 2511.00390, **Nov 2025, so out of scope as evidence; background only**) and a Padova MSc thesis
+  "GraphMixer in Financial Networks" (thesis.unipd.it, likely the anchor's precursor; [ABS], undated on the snippet).
