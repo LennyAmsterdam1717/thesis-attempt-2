@@ -286,3 +286,57 @@ Reference point throughout: **Krstev, Rigoni, Mishkovski & Pasa (2026)**, *Machi
 - [UNVERIFIED] arXiv:2609.35364 (2026-09-28), "Do Temporal Link Predictors Need Learned Memory? A Smoothed-Count Baseline…" (search extract only).
 - [UNVERIFIED] Xiao et al. (2025) CGLR, *ESWA* (S0957417425017634): the CGLR model the anchor adapts; 2025, **background only**.
 - [BACKGROUND] Huang et al. (2023) TGB, NeurIPS D&B; Gastinger/Huang et al. (2024) TGB 2.0; Poursafaei et al. (2022) EdgeBank/DGB; Zhou et al. (2022) TGL; Cong et al. (2023) GraphMixer. These are library/benchmark origin papers, not opened in this run.
+
+---
+
+## Direction D: wildcard scan (lighter coverage; seeds for creative topics)
+
+Entries below were seen only on abstract or record pages (**[ABS]**) unless marked; they seed ideas and are not systematically reviewed.
+
+### D1. Zhang, Li, Peng & Chen (2026). When Alpha Disappears: A One-Switch Benchmark for Decision-Time Leakage in Financial Backtests. arXiv:2605.23959
+- Link: <https://arxiv.org/abs/2605.23959> · 2026-05 · preprint · **[ABS]** (RePEc record)
+- Toggles one evaluation convention at a time around a clean t+1-open reference to measure protocol-induced inflation.
+  Notably it tests **"future-informed graph structure"** as a leakage switch (reported as weak in most settings, alongside
+  global normalisation and same-day-close execution).
+- vs anchor: a ready-made *leakage audit* design. Applied to the anchor: does building lead-lag edges with knowledge of the
+  test-period volatility, or using GPT-4o descriptions (written after 2024), inflate results?
+
+### D2. Ltifi (2026). Auditing Multi-Source Stock Prediction: An Evaluation Protocol and Benchmark (software, Zenodo v1.0.17, 2026-07-26)
+- Link: <https://zenodo.org/records/21592983> · code <https://github.com/mouadhltifi/leakage-controlled-benchmark> · software release · **[ABS]**
+- 55 US large caps 2015–2023, release-lag-aligned price/news/social/macro/**inter-stock graph** features; audits for
+  test-set model selection and non-temporal split leakage. MIT / CC-BY.
+- vs anchor: a reusable leakage-controlled harness; its inter-stock graph features could host lead-lag edges.
+
+### D3. Benhenda (2026). Look-Ahead-Bench: A Standardized Benchmark of Look-ahead Bias in Point-in-Time LLMs for Finance. arXiv:2601.13770
+- Link: <https://arxiv.org/abs/2601.13770> · 2026-01-20 · preprint · **[ABS]**
+- vs anchor: the anchor's node features include **GPT-4o-generated asset descriptions**. A point-in-time / look-ahead check
+  of those embeddings is an obvious, unasked question.
+
+### D4. Arata (2026). Predicting Shock Propagation and Uncovering Heterogeneity with Graph Neural Networks. RIETI Discussion Paper 26-E-045
+- Link: <https://www.rieti.go.jp/en/publications/summary/26050019.html> · 2026-05 · discussion paper · **[ABS]**
+- GNN on Japanese firm-level transaction networks predicts firm growth during the GFC export collapse; analysing the trained
+  model identifies the firms and links that matter for propagation. Data are almost certainly **non-public** (to verify).
+- vs anchor: "explain which links carry the shock" is the economic counterpart of explaining lead-lag edges.
+
+### D5. Kim et al. (2026). DefaultGNN: A Dual-Perspective GNN Framework for Predicting Corporate Default from Buyer-Seller Transaction Networks. arXiv:2609.25542
+- Link: <https://arxiv.org/abs/2609.25542> · 2026-09-22 · preprint · **[ABS]**
+- Buyer-view and seller-view multiplex transaction networks from **electronic tax invoices (private, Korea)** for default
+  prediction; validated with a credit rating agency.
+- vs anchor: default contagion through supply relations, which is the supervisor's credit-default idea, but on private data.
+  The public-data analogue (EDGAR 8-K Item 1.03 bankruptcies + 10-K customer disclosures → equity reaction of linked listed
+  firms) appears open.
+
+### D6. Structural Dynamics of G5 Stock Markets During Exogenous Shocks: A Random Matrix Theory-Based Complexity Gap Approach. arXiv:2604.19107
+- Link: <https://arxiv.org/abs/2604.19107> · 2026-04 · preprint · **[ABS]** (HTML extract via search; authors not recorded)
+- RMT "complexity gap" shows the **April 2025 US tariff announcement** acted as a global shock synchronising G5 markets.
+- vs anchor: a tariff/sanction **event window** is a natural out-of-distribution test for any learned lead-lag graph.
+
+### D7. Hong & Li (2026). Understanding Sectoral Responses to Tariff Uncertainty via a High-Dimensional Mediation Analysis. arXiv:2609.33881
+- Link: <https://arxiv.org/abs/2609.33881> · 2026-09-27 · preprint · **[ABS]**
+- S&P 500 sector effects across five 2025 tariff-policy windows, mediated by firm financial characteristics (no graph).
+- vs anchor: shows the 2025 tariff episode as a well-studied, public, event-rich test bed. No graph-ML paper on it was found.
+
+### D unverified leads
+- [UNVERIFIED] "Default prediction and contagion risk assessment in corporate guarantee networks via dynamic heterogeneous graph neural networks", Springer 2026, doi:10.1007/s44443-026-00904-2 (guarantee contracts, likely Chinese data).
+- [UNVERIFIED] Yan, Tang, Gao, Jiang & Lu (2026), DatedGPT, arXiv:2603.11838 (point-in-time LLMs; relevant to LLM-built graphs).
+- [UNVERIFIED] "Temporal Leakage in LLM Backtesting", arXiv:2608.02985 (2026).

@@ -150,3 +150,10 @@ Access: arXiv abs pages rate-limit after several quick fetches (2610.33171 faile
 Decision C-1: **No 2026 paper does signed (same- vs opposite-direction) temporal link prediction on stock lead-lag graphs**. The anchor (unsigned) and Regier et al. (signed, non-financial) bracket the gap.
 Decision C-2: The 2026 temporal-link-prediction evaluation literature (C4, C5, 2609.35364, 2610.33171) gives a ready-made rigour toolkit that the anchor did not use. A re-evaluation is a credible, low-risk thesis component.
 Decision C-3: Firm-relation link prediction (supply chain / partnership) has a new public-ish data route (LLM extraction from web/10-K; C2) but no 2026 *temporal link prediction* study on listed firms was found.
+
+### Direction D queries (2026-11-02)
+1. `arXiv 2026 bankruptcy default contagion equity returns supply chain network peer firms graph` (extended): DefaultGNN 2609.25542 (private data); guarantee-network HGNN (Springer, unverified); older Hungarian supply-chain contagion work (2023, background).
+2. `arXiv 2026 tariff sanctions shock propagation firm network stock returns graph neural network` (extended): RIETI 26-E-045 (Arata); G5 RMT tariff paper 2604.19107; tariff mediation 2609.33881; no graph-ML study of the 2025 tariff episode on listed-firm networks found.
+3. `2026 look-ahead bias leakage stock prediction graph neural network benchmark reproducibility re-evaluation` (standard): "When Alpha Disappears" 2605.23959; Zenodo leakage-controlled benchmark; Look-Ahead-Bench 2601.13770; DatedGPT 2603.11838.
+Decision D-1: **Evaluation rigour** is a hot 2026 theme in both temporal-graph ML (C4, C5, B4) and financial ML (D1–D3), but **nobody has joined the two for stock graphs**. This is a strong wildcard.
+Decision D-2: Credit-default contagion into equities via *public* data (EDGAR 8-K Item 1.03 + 10-K customer disclosures) shows no 2026 graph-ML paper; all 2026 default-GNN papers use private transaction/guarantee/tax data.
