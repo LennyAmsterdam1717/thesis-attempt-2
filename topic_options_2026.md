@@ -276,3 +276,64 @@ Frank 3 → **50 / 70**. Gates: pass.
 
 **13. Questions for the supervisor.** Is ownership-based anomaly detection close enough to her "stock network" idea? Would she prefer
 B-1 (price graphs) over B-2 if only one anomaly topic is pursued?
+
+---
+
+### Card C-1: Signed temporal lead-lag link prediction, done rigorously
+
+**1. Pitch.** The anchor predicts *whether* a stock follows another's big move. This thesis predicts *whether and in which direction*
+(same or opposite sign) on market- and sector-neutral returns, and first checks whether the anchor's headline result survives the
+2026 evaluation standards (memorisation, structural-proximity and volatility baselines; all-entity ranking).
+
+**2. Research question.** Can temporal graph models predict the existence and sign of residual lead-lag edges between stocks
+better than memorisation, structural-proximity and statistical lead-lag baselines, under leakage-safe evaluation?
+- SQ1 (work package 1, re-evaluation): On the anchor's public dataset, does GraphMixer's advantage survive EdgeBank, time-decay PPR,
+  node-degree/volatility scores, historical/inductive negatives and all-entity ranking?
+- SQ2: Does residualising returns and adding opposite-direction (−) edges change what is learnable, and can the sign be predicted?
+- SQ3: Do results transfer across universes (S&P 500 vs AEX/Euronext) and regimes (COVID-2020, the 2025 tariff shock)?
+
+**3. Supervisor directions hit.** **Signed, time-activated influence edges + time series** (her capitalised point) · **link prediction** · temporal.
+
+**4. Closest 2026 work and the difference.**
+- **Anchor** (C0) [FT]: *extends* it with signs, residual returns, a larger universe and the 2026 evaluation protocol, and directly tests its main claim.
+- C1 Regier et al. 2026 [FT]: temporal signed GNN (HCIM), Bitcoin trust networks, sign-only. → Real market data, existence + sign.
+- A1 Fanshawe et al. 2026 [FT]: signed correlation *regression* with WRDS data. → Event-level link prediction on free data.
+- C4 Yu & Ha 2026, C5 Fei et al. 2026 [ABS]: evaluation critiques on generic datasets. → First application to financial graphs.
+- C6 Deng & Zhang 2026 [ABS]; Cartea et al. 2026 *J. Empirical Finance* [UNVERIFIED]: statistical lead-lag. → Serve as non-ML baselines.
+- [BACKGROUND] MSGNN/FiLL (2022): static yearly signed lead-lag graphs. → We make it temporal (daily events).
+
+**5. Kill test.** Queries: `signed lead-lag network stock opposite direction edge sign prediction temporal graph`; `2026 signed graph
+neural network temporal link sign prediction financial correlation`; `EdgeBank baseline financial temporal graph stock lead-lag
+re-evaluation …`. The only signed lead-lag LP work is static (MSGNN, 2022); the only temporal one is unsigned (anchor); no
+re-evaluation exists. **Weakened → survives.**
+
+**6. Data and access risk.** WP1: the anchor's processed dataset on GitHub (<https://github.com/ivankrstev7/Temporal_Graphs_Lead_Lag_Data>,
+**not opened yet**; its commercial sentiment features can be dropped). Main study: daily prices (Stooq; yfinance unofficial),
+Kenneth French factors and SPDR sector-ETF prices for residuals, AEX constituents via Stooq **[UNVERIFIED coverage]**. Survivorship
+bias: use point-in-time constituent lists if obtainable, otherwise report the bias explicitly. **Risk: low.**
+
+**7. Method sketch.** Edge definitions (compared, not assumed): (a) the anchor's thresholded co-exceedance (replication);
+(b) residual co-exceedance with sign = sign(e_i(t)·e_j(t+τ)); (c) a statistical variant (rolling lagged correlation with a
+significance filter). Models: DyGLib (TGN, TGAT, GraphMixer, DyGFormer, with existence + sign heads); the anchor's TGL code; signed
+models (C1's HCIM + SE-SGformer: <https://github.com/incoder-mru/Historical-Context-Integration-Module>; PyG signed GNNs).
+
+**8. Baselines and evaluation.** EdgeBank∞/tw; time-decay PPR (C5); popularity/degree; a **volatility-only score** (rank candidates by
+recent |return|); ARIMA-pairwise (anchor); lagged-correlation sign. Metrics: AP/AUROC under random, historical and inductive negatives;
+**all-entity MRR** (the catalogue is small, as C4 recommends); sign macro-F1/AUROC. Chronological splits with an embargo gap; 5 seeds;
+Friedman + post-hoc tests (as the anchor). A key diagnostic is performance *conditional on edge novelty* (repeat vs new pairs).
+
+**9. Artefact.** "Lead-lag explorer": today's large movers → predicted next-day followers with sign and confidence, plus a history
+view showing when an edge switched on, off or flipped sign.
+
+**10. Feasibility, risks, fallback.** WP1 (weeks 7–10) reuses the anchor repo and is low-risk and publishable as a short paper on its own.
+Weeks 11–20 signed/residual pipeline + models; 21–24 transfer/regime tests; 25–30 writing. Risk: the signal may mostly be volatility;
+that is itself a clear, honest finding. **Fallback:** WP1 + sign prediction on the anchor's 37-asset universe.
+
+**11. Ethics.** No personal data. Disclose generative-AI use (coding) per UU rules. Not trading advice.
+
+**12. Scores (§9).** Novelty 4 (12) · fit 5 (10) · data 4 (8) · feasibility 4 (8) · evaluation 5 · AI 4 · artefact 4 · industry 3 ·
+Frank 4 → **58 / 70**. Gates: pass.
+
+**13. Questions for the supervisor.** Is a thesis whose first result may be "the 2026 SOTA is mostly memorisation/volatility" welcome,
+or must the thesis also propose a model? Which edge definition (thresholded vs statistical) does she find most meaningful? Is a
+European universe (AEX) a plus?
