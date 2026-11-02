@@ -101,3 +101,67 @@ industry 4 · Frank's interests 3 → **55 / 70**. Gates: all pass.
 
 **13. Questions for the supervisor.** Is an *ownership* network acceptable as "stock network" for this thesis? Is classifying edge
 events (entry/exit) "non-standard" enough? Does UU give MSc students WRDS access (Thomson/Refinitiv s34 13F would remove the mapping risk)?
+
+---
+
+### Card A-2: Contagion exposure after credit events, explained counterfactually
+
+**1. Pitch.** When a listed firm files for bankruptcy (SEC 8-K Item 1.03), which of its connected listed firms (customers,
+suppliers, co-owned peers, lead-lag followers) will suffer abnormal stock losses, and *why*? This is heterogeneous-graph
+classification conditioned on an event, with counterfactual explanations as a core contribution.
+
+**2. Research question.** Can a temporal heterogeneous company graph built from public filings classify which linked firms
+are exposed to a credit event, and can counterfactual explanations identify the relation that carries the exposure?
+- SQ1: Which relation types (supply chain, common ownership, sector, price lead-lag) carry equity contagion (relation ablation)?
+- SQ2: Are counterfactual explanations faithful and stable (fidelity, sparsity, agreement across explainers), and do they match the economic channel?
+- SQ3: Does the model beat event-study heuristics (same industry, "largest customer" flag, past correlation)?
+
+**3. Supervisor directions hit.** **Credit default → stock market** (her separate problem) · heterogeneous graph with a non-standard
+classification angle (event-conditioned + XAI) · temporal · lead-lag edges as one relation.
+
+**4. Closest 2026 work and the difference.**
+- A5 CausalGraphX 2026 [ABS]: counterfactual GNN for cascading defaults, **synthetic data only**. → We use real public data and equity outcomes.
+- D5 DefaultGNN 2026 [ABS]: supply-network default prediction from **private** tax invoices. → We predict *equity contagion after* a default, on public data.
+- A4 Ind_HGF 2026 [ABS]: distress node classification. → We do not predict the default itself, only who is hit by it.
+- TemGX (ICLR 2026) / MemExplainer (ICML 2026) [ABS]: generic TGNN explainers, not applied to finance. → First financial-contagion use.
+- **Anchor**: *extends/differs*. The anchor's price lead-lag edges become one typed relation; the task changes from generic edge
+  prediction to event-conditioned exposure classification, and it adds the interpretability evaluation the anchor names as future work.
+
+**5. Kill test.** Queries: `8-K bankruptcy filing contagion customers suppliers stock returns machine learning graph EDGAR 2026`;
+`arXiv 2026 bankruptcy default contagion equity returns supply chain network peer firms graph`;
+`explainable temporal graph neural network counterfactual explanation financial link prediction lead-lag 2026`. No ML paper on
+public-data equity contagion after 8-K bankruptcy filings found. **Survives.**
+
+**6. Data and access risk.** Events: EDGAR 8-K Item 1.03 (bankruptcy/receivership) filings, public (2026 examples verified on
+sec.gov); optional extensions Item 2.04 (triggering events) and Item 3.01 (delisting notices). Supply links: 10-K "major customer"
+disclosures (segment rules require disclosing customers with ≥ 10 % of revenue, but often **not by name**, **[UNVERIFIED]** share
+named); extract with an LLM from EDGAR full text. Common ownership: 13F. Sector: SIC codes on EDGAR. Abnormal returns: prices
+(Stooq/yfinance) + Kenneth French factors. **Risk: high.** Few events with *listed* counterparties, plus extraction effort.
+
+**7. Method sketch.** For each event date, build the k-hop temporal heterogeneous subgraph around the failing firm from filings
+dated *before* the event. Label each linked firm "exposed" if its cumulative abnormal return over [0, +5] (and [0, +20]) is
+below a threshold (market-model CAR, estimation window [−250, −30]). Models: RGCN/HGT (PyG) with relation-typed edges + temporal
+encodings; LightGBM on relation indicators and network features. Explainers: PyG GNNExplainer/PGExplainer, a CF-GNNExplainer-style
+edge-deletion counterfactual, TemGX (code: <https://github.com/nicej1899/TemGX>).
+
+**8. Baselines and evaluation.** Heuristics (same SIC, named major customer, top-k past correlation), logistic regression, LightGBM.
+Metrics: AUPRC, precision@k per event, calibration; explanation fidelity (+/−), sparsity, stability across seeds. Chronological
+split by event date; graph snapshots strictly pre-event.
+
+**9. Artefact.** "Contagion map": enter a distressed firm → ranked exposed firms with the relation path that explains each (e.g.
+"supplier, 18 % of revenue" or "shares 7 of top-10 holders").
+
+**10. Feasibility, risks, fallback.** Weeks 1–6 review; 7–14 event + relation pipeline (the bottleneck); 15–20 models; 21–24 XAI
+evaluation; 25–30 writing. Risk: too few events (listed-firm bankruptcies with listed partners may number only in the low hundreds,
+**[UNVERIFIED]**). **Fallback:** widen "credit event" to severe negative shocks (e.g. ≥ 30 % one-day drop, large earnings misses
+via 8-K Item 2.02 dates) to get thousands of events, keeping the same graph and XAI pipeline.
+
+**11. Ethics.** Firm-level nodes only; do not use executive/board (Form 4, interlocks) data to avoid personal data. Present outputs
+as risk analysis, not trading or credit advice; name firms only from public filings.
+
+**12. Scores (§9).** Novelty 5 (15) · fit 5 (10) · data 2 (4) · feasibility 2 (4) · evaluation 3 · AI 4 · artefact 5 · industry 5 ·
+Frank 5 → **55 / 70**. Gates: pass. Feasibility is the weak point.
+
+**13. Questions for the supervisor.** Is event-study labelling (abnormal returns) acceptable as ground truth? Would she accept the
+broadened "severe negative shock" fallback? Can we get WRDS Compustat Customer Segments (would remove the extraction risk)?
+Is the XAI evaluation enough of an AI contribution, or should the model itself be novel?
