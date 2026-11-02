@@ -199,3 +199,90 @@ Reference point throughout: **Krstev, Rigoni, Mishkovski & Pasa (2026)**, *Machi
 - [UNVERIFIED] Luo et al. (2026), "Unsupervised Anomaly Detection in Dynamic Graphs via Compatibility Modeling and Boundary Learning" (BAD), IJCAI 2026 (ijcai.org/proceedings/2026/0322.pdf).
 - [UNVERIFIED] Umeorah & Fadina (2026), "A Temporal Multiplex Graph Neural Network for Systemic Risk Transmission in Global Banking", arXiv:2608.27295 (CDS spreads are paid data).
 - [UNVERIFIED] Cappelletti, Voutaz & Frossard (2026), "Geodesics of Dynamic Graphs for Regime Change Detection", arXiv:2606.07151.
+
+---
+
+## Direction C: link prediction (signed / lead-lag / supply chain / ownership / co-mention)
+
+### C0. Anchor: Krstev, Rigoni, Mishkovski & Pasa (2026), *Machine Learning* 115:173
+- Link: <https://doi.org/10.1007/s10994-026-07113-y> · received 2026-01-15, published 2026-07-08 · peer-reviewed · **[FT]**
+- Lead-lag as temporal link prediction on 37 assets; GraphMixer best (AP ≈ 0.79); random single negatives; no EdgeBank.
+  Full summary in `NOTES.md` (Phase 0).
+
+### C1. Regier, Polyak, Dadlani & Salmani (2026). Dynamic Link Prediction with Temporally Enhanced Signed Graph Neural Networks. arXiv:2605.26290
+- Link: <https://arxiv.org/abs/2605.26290> · First posted 2026-05-25 · preprint · **[FT]**
+- Summary: A Historical Context Integration Module (HCIM: recency weighting → LSTM → self-attention → gated fusion) bolted
+  onto the static Self-Explainable Signed Graph Transformer (SE-SGformer) for temporal signed networks. AUC gains of
+  +3.8 % (Bitcoin OTC) and +5.8 % (Bitcoin Alpha), larger on synthetic graphs with sign flips.
+- Graph: **temporal signed** (discrete snapshots; only 6 snapshots for Bitcoin data). Task: in practice **sign prediction
+  of observed edges** (non-edges excluded), despite the "link prediction" framing.
+- Data: Bitcoin OTC/Alpha, Reddit hyperlinks, synthetic. **No stock-market data**. Code: <https://github.com/incoder-mru/Historical-Context-Integration-Module>.
+- Leaves open: compared only to its own static backbone (no TGN/JODIE/signed baselines); no edge-existence + sign joint task;
+  no chronological-split details; finance named only as a possible application.
+- vs anchor: the anchor has **edges without signs**; C1 has **signs without real market edges**. A stock lead-lag graph with
+  same-direction (+) and opposite-direction (−) edges is a new real-world temporal signed benchmark for exactly this
+  model family.
+
+### C2. Köse, Diem, Dervic, Friesenbichler, Heiler, Hurt, Picatto & Klimek (2026). Reconstructing temporal multi-relational firm networks at scale using large language models: the case of the semiconductor industry. arXiv:2605.15842
+- Link: <https://arxiv.org/abs/2605.15842> · First posted 2026-05-15 · preprint · **[ABS]** (abstract page + HTML snippet from search)
+- Summary: LLMs extract and classify supply-chain, partnership and ownership links from ≈170 M semiconductor-firm web pages
+  (Common Crawl history 2015–2025 per the HTML snippet) → temporal multi-relational network of 1,300+ firms. Extraction
+  precision 0.884, F1 0.784; 22 % of links also in S&P Capital IQ (snippet). Shows a 9 % edge drop during the 2022 chip
+  shortage, NVIDIA's rising centrality, and geopolitical regional realignment.
+- Graph: **temporal, heterogeneous edge types (supply / partner / ownership)**. Task: network reconstruction (no ML prediction).
+- Data release / code: not stated in the abstract (**to verify**).
+- vs anchor: a source of **typed, time-stamped firm relations** that could explain or predict the anchor's price lead-lag
+  edges (supply-chain lead-lag, i.e. "customer momentum"). Also directly relevant to geopolitics (Frank's interest).
+
+### C3. Yılkı (2026). Supply Chain Propagation of Textual Signals: LLM Embeddings and Cross-Sectional Return Predictability. arXiv:2606.29290
+- Link: <https://arxiv.org/abs/2606.29290> · First posted 2026-06-28 (q-fin.PR) · preprint · **[ABS]**
+- Summary: FinBERT embeddings of 10-K MD&A (255 S&P 500 firms, 2011–2025, **SEC EDGAR**) propagated over a small supply-chain
+  KG (48 nodes, 51 directed edges; construction unclear, the search snippet suggests manual curation). Network-augmented
+  factor: FF5 alpha 7.3 %/yr (t = 2.30), long-short Sharpe 0.86.
+- Graph: static directed supply-chain graph. Task: asset pricing (no link prediction).
+- vs anchor: evidence that **supply-chain edges carry return-relevant information**. The tiny hand-built KG is the
+  bottleneck that link prediction (C2-style extraction + completion) could remove.
+
+### C4. Yu & Ha (2026). Back to All-Entity Ranking: Sampler-Dependent Evaluation in Continuous-Time Dynamic Graphs. arXiv:2607.27861
+- Link: <https://arxiv.org/abs/2607.27861> · First posted 2026-07-30 · preprint · **[ABS]**
+- Summary: Sampled-negative CTDG evaluation depends on the negative distribution *and* the number of candidates; model
+  orderings flip between Uniform-20 and full-catalogue ranking on 3 of 4 datasets; recommends **all-entity ranking**
+  when the destination set is small and fixed.
+- vs anchor: **directly applicable**. A 37-node (or 500-node) stock universe is a small fixed catalogue, so all-entity
+  ranking is cheap. The anchor's AP/AUC with one random negative is exactly the protocol this paper warns about.
+
+### C5. Fei, Zheng, Yi & Wei (2026). Revisiting Temporal Link Prediction through Structural Proximity. arXiv:2610.38385
+- Link: <https://arxiv.org/abs/2610.38385> · First posted 2026-10-28 · preprint · **[ABS]**
+- Summary: Training-free time-decay Personalized PageRank on the historical interaction graph ranks 1st on 9 and 2nd on 4 of
+  14 datasets against learned temporal link predictors, including datasets with few repeated edges; also evaluated
+  under activity-weighted negatives.
+- vs anchor: a further training-free baseline the anchor lacks (with EdgeBank). If time-decay PPR matches GraphMixer on
+  lead-lag edges, the "temporal GNN" claim weakens a lot.
+
+### C6. Deng & Zhang (2026). Lead-Lag Relationships in Financial Markets: A Comparison of Multiple Clustering Algorithms. arXiv:2608.24703
+- Link: <https://arxiv.org/abs/2608.24703> · First posted 2026-08-25 (q-fin.ST) · preprint · **[ABS]**
+- Summary: Compares clustering algorithms for lead-lag-based trading; MiniRocket-KMeans best under the "lead" strategy
+  (Sharpe 0.87 but max drawdown −64 %).
+- vs anchor: the **statistical/clustering** line (Oxford-Man style) continues in 2026 without graph learning. The anchor and
+  this line do not compare against each other, which is a gap.
+
+### C7. LLM as a Risk Manager: LLM Semantic Filtering for Lead–Lag Trading in Prediction Markets. arXiv:2602.07048 (v2 2026-02-27)
+- Link: <https://arxiv.org/abs/2602.07048> · First posted 2026-02 · preprint · **[ABS]** (HTML extract via search; authors not recorded)
+- Summary: Statistically discovered lead-lag pairs are filtered by an LLM judging economic plausibility; the filtered
+  pairs generalise better out of sample.
+- Domain: **prediction markets, not equities** (transfer label: the "LLM plausibility filter on lead-lag edges" idea transfers directly).
+- vs anchor: suggests a **semantic prior on edges** (does an LLM-judged economic link explain which predicted lead-lag
+  edges persist?), connecting to C2/C3 and the supervisor's text-analysis expertise.
+
+### Cross-references from other directions
+- A1 (Fanshawe et al. 2026): signed correlation **edge regression** with relation-typed heads (S&P 500, WRDS data).
+- A2 (Izadifar & Rahmati 2026): 13F **ownership-edge weight prediction** (TGB node affinity); persistence nearly unbeatable.
+- B3/B4 (BAG, SimpleCount): the same CTDG model family and the same "beat simple counts first" lesson.
+
+### Direction C: unverified leads
+- [UNVERIFIED] Cartea, Cucuringu, Jin et al.? (2026), "Detecting lead-lag relationships in stock returns and portfolio strategies", *Journal of Empirical Finance* 89:101775, doi:10.1016/j.jempfin.2026.101775 (ResearchGate record only; author list not verified). **Key closest-work check for any lead-lag topic.**
+- [UNVERIFIED] "Modeling Inter-Firm Dependencies with Temporal Graph Neural Networks for Stock Price Prediction" (news co-occurrence temporal graph), ScienceDirect S2949948826000168 (blocked).
+- [UNVERIFIED] arXiv:2610.33171 (2026-10): temporal link prediction under exhaustive and degree-matched ranking; pair-count and activity baselines (arXiv rate-limited twice; not opened).
+- [UNVERIFIED] arXiv:2609.35364 (2026-09-28), "Do Temporal Link Predictors Need Learned Memory? A Smoothed-Count Baseline…" (search extract only).
+- [UNVERIFIED] Xiao et al. (2025) CGLR, *ESWA* (S0957417425017634): the CGLR model the anchor adapts; 2025, **background only**.
+- [BACKGROUND] Huang et al. (2023) TGB, NeurIPS D&B; Gastinger/Huang et al. (2024) TGB 2.0; Poursafaei et al. (2022) EdgeBank/DGB; Zhou et al. (2022) TGL; Cong et al. (2023) GraphMixer. These are library/benchmark origin papers, not opened in this run.

@@ -137,3 +137,16 @@ Decision A-1: plain distress/bankruptcy/fraud node classification on heterogeneo
 
 Access: **AAAI OJS (ojs.aaai.org) blocks web fetch** (bot protection); **Springer article pages are inconsistent** (Comput Econ page worked; AIR review failed). Logged, not retried.
 Decision B-1: finance-specific dynamic-graph anomaly work in 2026 is **thin** (a handful of preprints, mostly graph-level stress detection on small universes with very few labelled events). Generic DyGAD benchmarks (BAG, DynGraphAgentBench) contain **no equity data**. → B is relatively open, but the main risk is *ground truth* (few labelled events).
+
+### Direction C queries (2026-11-02)
+1. `arXiv 2026 lead-lag stock network learning graph neural network` (extended): the anchor's own Springer record (received 2026-01-15); news/supply-chain "lead-lag" GNN predictors (ResearchGate, unverified); DeltaLag (Nov 2025, out).
+2. `2026 signed graph neural network temporal link sign prediction financial correlation` (extended): **Regier et al. 2605.26290**; news co-occurrence TGNN (ScienceDirect, blocked); many price-prediction GNNs (crowded).
+3. `arXiv 2026 supply chain link prediction companies knowledge graph GNN SEC filings` (extended): Yılkı 2606.29290; supply chain KG completion (MDPI Sustainability 2026, non-equity); older Brintrup/Kosasih line (background).
+4. `2026 temporal graph link prediction evaluation negative sampling EdgeBank benchmark critique TGB` (extended): **Yu & Ha 2607.27861; Fei et al. 2610.38385; 2609.35364; 2610.33171**. A strong 2026 wave of "simple baselines beat TGNNs".
+5. `arXiv 2026 lead-lag relationships equities network detection q-fin` (extended): Deng & Zhang 2608.24703; 2602.07048 (prediction markets); **Cartea et al. 2026 JEF (unverified, important)**; Bennett et al. 2022 (MLJ, background).
+6. `arXiv 2026 news co-mention company network temporal link prediction firms GDELT` (extended): **Köse et al. 2605.15842 (LLM firm networks)**; Papadopoulos 2604.23714 (temporal connection probabilities, physics); no 2026 paper on *predicting* news co-mention links between listed firms found.
+
+Access: arXiv abs pages rate-limit after several quick fetches (2610.33171 failed twice → [UNVERIFIED]).
+Decision C-1: **No 2026 paper does signed (same- vs opposite-direction) temporal link prediction on stock lead-lag graphs**. The anchor (unsigned) and Regier et al. (signed, non-financial) bracket the gap.
+Decision C-2: The 2026 temporal-link-prediction evaluation literature (C4, C5, 2609.35364, 2610.33171) gives a ready-made rigour toolkit that the anchor did not use. A re-evaluation is a credible, low-risk thesis component.
+Decision C-3: Firm-relation link prediction (supply chain / partnership) has a new public-ish data route (LLM extraction from web/10-K; C2) but no 2026 *temporal link prediction* study on listed firms was found.
